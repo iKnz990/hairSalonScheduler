@@ -1,4 +1,4 @@
-﻿using hairSalonScheduler.Model;
+﻿using hairSalonScheduler.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -1,5 +1,4 @@
-﻿using hairSalonScheduler.Model;
-using hairSalonScheduler.Models;
+﻿using hairSalonScheduler.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class ApplicationDbContext : DbContext

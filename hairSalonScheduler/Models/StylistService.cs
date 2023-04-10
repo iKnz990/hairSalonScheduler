@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace hairSalonScheduler.Model
+namespace hairSalonScheduler.Models
 {
     public class StylistService
     {

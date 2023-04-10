@@ -1,7 +1,7 @@
 ﻿using hairSalonScheduler.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace hairSalonScheduler.Model
+namespace hairSalonScheduler.Models
 {
     public class SocialMediaAccount
     {

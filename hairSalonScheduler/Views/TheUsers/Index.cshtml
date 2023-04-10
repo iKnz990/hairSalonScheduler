@@ -1,4 +1,4 @@
-﻿@model IEnumerable<hairSalonScheduler.Models.Appointment>
+﻿@model IEnumerable<hairSalonScheduler.Models.TheUser>
 
 @{
     Layout = null;
@@ -19,25 +19,28 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ApptType)
+                @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdditionalInformation)
+                @Html.DisplayNameFor(model => model.DateOfBirth)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserID)
+                @Html.DisplayNameFor(model => model.PreferredPronouns)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StylistID)
+                @Html.DisplayNameFor(model => model.Allergies)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CurrentHairPhotoPath)
+                @Html.DisplayNameFor(model => model.PreferredStylistID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsChecked)
             </th>
             <th></th>
         </tr>
@@ -46,25 +49,28 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Time)
+                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApptType)
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdditionalInformation)
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserID)
+                @Html.DisplayFor(modelItem => item.PreferredPronouns)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StylistID)
+                @Html.DisplayFor(modelItem => item.Allergies)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CurrentHairPhotoPath)
+                @Html.DisplayFor(modelItem => item.PreferredStylistID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsChecked)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
