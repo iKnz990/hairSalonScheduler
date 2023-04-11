@@ -24,7 +24,7 @@ namespace hairSalonScheduler.Models
 
         public string AdditionalInformation { get; set; }
 
-        [Required(ErrorMessage = "Services are required.")]
+        
         public List<TheService> Services { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]

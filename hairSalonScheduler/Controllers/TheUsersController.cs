@@ -156,5 +156,25 @@ namespace hairSalonScheduler.Controllers
         {
           return _context.Users.Any(e => e.ID == id);
         }
+
+        // GET: TheUsers/Register
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: TheUsers/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([Bind("ID,Name,Email,PhoneNumber,DateOfBirth,PreferredPronouns,Allergies,PreferredStylistID,IsChecked")] TheUser theUser)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(theUser);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Home"); // Redirect to the home page after registration
+            }
+            return View(theUser);
+        }
     }
 }

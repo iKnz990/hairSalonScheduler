@@ -27,21 +27,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PreferredPronouns)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Allergies)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PreferredStylistID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsChecked)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -56,21 +41,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PreferredPronouns)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Allergies)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PreferredStylistID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsChecked)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
