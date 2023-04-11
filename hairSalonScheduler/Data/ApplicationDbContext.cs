@@ -30,4 +30,8 @@ public class ApplicationDbContext : DbContext
             .WithMany()
             .HasForeignKey(ss => ss.ServiceID);
     }
+
+    public DbSet<hairSalonScheduler.Models.StylistService> StylistService { get; set; }
+
+    public DbSet<hairSalonScheduler.Models.SocialMediaAccount> SocialMediaAccount { get; set; }
 }
