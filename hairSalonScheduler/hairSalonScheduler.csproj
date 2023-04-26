@@ -33,6 +33,12 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Admin\Appointments\" />
+    <Folder Include="Views\Admin\StylistServices\" />
+    <Folder Include="Views\Admin\Services\" />
+    <Folder Include="Views\Admin\StylistHours\" />
+    <Folder Include="Views\Admin\PromotionalPricings\" />
+    <Folder Include="Views\Admin\Stylist\" />
   </ItemGroup>
 
 </Project>

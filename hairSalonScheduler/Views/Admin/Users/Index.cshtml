@@ -1,0 +1,41 @@
+﻿@model IEnumerable<hairSalonScheduler.Models.TheUser>
+@{
+    ViewData["Title"] = "Admin - Manage Users";
+}
+
+<h1>Admin - Manage Users</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Date of Birth</th>
+            <th>Preferred Pronouns</th>
+            <th>Allergies</th>
+            <th>Preferred Stylist ID</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.ID</td>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.DateOfBirth.ToShortDateString()</td>
+                <td>@user.PreferredPronouns</td>
+                <td>@user.Allergies</td>
+                <td>@user.PreferredStylistID</td>
+                <td>
+                    <a asp-controller="TheUsers" asp-action="Edit" asp-route-id="@user.ID" class="btn btn-primary">Edit</a>
+                    <a asp-controller="TheUsers" asp-action="Delete" asp-route-id="@user.ID" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
