@@ -87,6 +87,25 @@ namespace hairSalonScheduler.Controllers
         {
             return View("Services/Index", await _context.Services.ToListAsync());
         }
+        // GET: Admin/Services/Create
+        public IActionResult CreateService()
+        {
+            return View("Services/Create");
+        }
+
+        // POST: Admin/Services/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateService([Bind("ID,Name,Type,Cost")] TheService theService)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(theService);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Services));
+            }
+            return View("Services/Create", theService);
+        }
 
         // StylistHours
         public async Task<IActionResult> StylistHours()

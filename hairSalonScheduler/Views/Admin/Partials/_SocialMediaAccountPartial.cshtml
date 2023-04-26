@@ -1,8 +1,22 @@
 ﻿@model hairSalonScheduler.Models.SocialMediaAccount
 
-<h2>Social Media Account Information</h2>
-<!-- Add the remaining fields for the SocialMediaAccount model -->
-@Html.EditorFor(model => model.AccountId, new { htmlAttributes = new { @class = "form-control" } })
-@Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
+<h2>Social Media Account</h2>
 
-<!-- Add other SocialMediaAccount fields here -->
+<div class="form-group">
+    <label asp-for="SocialMediaType" class="control-label">Social Media Type</label>
+    <select asp-for="SocialMediaType" class="form-control">
+        <option value="Facebook">Facebook</option>
+        <option value="Instagram">Instagram</option>
+    </select>
+    <span asp-validation-for="SocialMediaType" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="AccountId" class="control-label">Account ID</label>
+    <input asp-for="AccountId" class="form-control" />
+    <span asp-validation-for="AccountId" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <input type="hidden" asp-for="StylistId" class="form-control" />
+</div>
