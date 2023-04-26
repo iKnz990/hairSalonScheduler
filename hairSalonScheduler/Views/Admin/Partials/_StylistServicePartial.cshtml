@@ -1,0 +1,8 @@
+﻿@model hairSalonScheduler.Models.StylistService
+
+<h2>Stylist Service Information</h2>
+<!-- Add the remaining fields for the StylistService model -->
+@Html.EditorFor(model => model.ServiceID, new { htmlAttributes = new { @class = "form-control" } })
+@Html.ValidationMessageFor(model => model.ServiceID, "", new { @class = "text-danger" })
+
+<!-- Add other StylistService fields here -->

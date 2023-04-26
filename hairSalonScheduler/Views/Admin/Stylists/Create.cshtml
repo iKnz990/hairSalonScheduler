@@ -1,0 +1,24 @@
+﻿@model hairSalonScheduler.ViewModels.StylistCreateViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<form asp-action="CreateStylist">
+    <div class="form-horizontal">
+        <hr />
+        @Html.AntiForgeryToken()
+
+        @Html.Partial("Partials/_StylistPartial", Model.Stylist)
+        @Html.Partial("Partials/_PromotionalPricingPartial", Model.PromotionalPricings)
+        @Html.Partial("Partials/_StylistServicePartial", Model.StylistServices)
+        @Html.Partial("Partials/_SocialMediaAccountPartial", Model.SocialMediaAccounts)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>

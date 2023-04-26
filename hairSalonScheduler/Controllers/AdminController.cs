@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using hairSalonScheduler.ViewModels;
+
 
 namespace hairSalonScheduler.Controllers
 {
@@ -30,6 +32,44 @@ namespace hairSalonScheduler.Controllers
             return View("Stylists/Index", await _context.Stylists.ToListAsync());
         }
 
+        public IActionResult CreateStylist()
+        {
+            return View("Stylists/Create", new StylistCreateViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateStylist(StylistCreateViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(viewModel.Stylist);
+                await _context.SaveChangesAsync();
+
+                foreach (var promo in viewModel.PromotionalPricings)
+                {
+                    promo.ServiceID = viewModel.Stylist.ID;
+                    _context.Add(promo);
+                }
+
+                foreach (var service in viewModel.StylistServices)
+                {
+                    service.StylistID = viewModel.Stylist.ID;
+                    _context.Add(service);
+                }
+
+                foreach (var account in viewModel.SocialMediaAccounts)
+                {
+                    account.StylistId = viewModel.Stylist.ID;
+                    _context.Add(account);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Stylist));
+            }
+
+            return View("Stylists/Create", viewModel);
+        }
         // PromotionalPricings
         public async Task<IActionResult> PromotionalPricings()
         {
