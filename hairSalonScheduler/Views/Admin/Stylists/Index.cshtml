@@ -1,0 +1,35 @@
+﻿@model IEnumerable<hairSalonScheduler.Models.Stylist>
+
+@{
+    ViewData["Title"] = "Manage Stylists";
+}
+
+<h2>@ViewData["Title"]</h2>
+<a asp-action="CreateStylist" class="btn btn-primary">Add New Stylist</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stylist in Model)
+        {
+            <tr>
+                <td>@stylist.ID</td>
+                <td>@stylist.Name</td>
+                <td>@stylist.Email</td>
+                <td>@stylist.PhoneNumber</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@stylist.ID">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@stylist.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

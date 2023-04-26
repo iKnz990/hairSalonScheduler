@@ -1,0 +1,39 @@
+﻿@model IEnumerable<hairSalonScheduler.Models.PromotionalPricing>
+
+@{
+    ViewData["Title"] = "Manage Promotional Pricings";
+}
+
+<h2>@ViewData["Title"]</h2>
+<a asp-action="CreatePromotionalPricing" class="btn btn-primary">Add New Promotional Pricing</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>ServiceID</th>
+            <th>OriginalPrice</th>
+            <th>DiscountedPrice</th>
+            <th>StartDate</th>
+            <th>EndDate</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pricing in Model)
+        {
+            <tr>
+                <td>@pricing.ID</td>
+                <td>@pricing.ServiceID</td>
+                <td>@pricing.OriginalPrice.ToString("C")</td>
+                <td>@pricing.DiscountedPrice.ToString("C")</td>
+                <td>@pricing.StartDate.ToShortDateString()</td>
+                <td>@pricing.EndDate.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@pricing.ID">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@pricing.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

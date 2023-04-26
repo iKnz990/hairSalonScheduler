@@ -1,0 +1,35 @@
+﻿@model IEnumerable<hairSalonScheduler.Models.SocialMediaAccount>
+
+@{
+    ViewData["Title"] = "Manage Social Media Accounts";
+}
+
+<h2>@ViewData["Title"]</h2>
+<a asp-action="CreateSocialMediaAccount" class="btn btn-primary">Add New Social Media Account</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>SocialMediaType</th>
+            <th>AccountId</th>
+            <th>StylistId</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model)
+        {
+            <tr>
+                <td>@account.Id</td>
+                <td>@account.SocialMediaType</td>
+                <td>@account.AccountId</td>
+                <td>@account.StylistId</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@account.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@account.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
