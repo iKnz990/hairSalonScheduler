@@ -10,9 +10,11 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Name</th>
             <th>Gender</th>
             <th>Profile Image</th>
             <th>Availability</th>
+            <th>Services</th>
             <th>Bio</th>
             <th>Actions</th>
         </tr>
@@ -22,6 +24,7 @@
         {
             <tr>
                 <td>@stylist.Id</td>
+                <td>@stylist.Name</td>
                 <td>@stylist.Gender</td>
                 <td>
                     @if (!string.IsNullOrEmpty(stylist.ProfileImage))
@@ -59,6 +62,21 @@
                     else
                     {
                         <span>No availability information</span>
+                    }
+                </td>
+                <td>
+                    @if (stylist.Services != null && stylist.Services.Count > 0)
+                    {
+                        <ul>
+                            @foreach (var service in stylist.Services)
+                            {
+                                <li>@service.Category</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No services assigned</span>
                     }
                 </td>
                 <td>@stylist.Bio</td>

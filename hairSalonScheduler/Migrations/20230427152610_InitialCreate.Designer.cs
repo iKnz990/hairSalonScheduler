@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace hairSalonScheduler.Migrations
 {
     [DbContext(typeof(SalonDbContext))]
-    [Migration("20230427004800_InitialCreate")]
+    [Migration("20230427152610_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -79,10 +79,18 @@ namespace hairSalonScheduler.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("longtext");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<string>("StaffIds")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("StylistId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StylistId");
 
                     b.ToTable("Services");
                 });
@@ -97,6 +105,9 @@ namespace hairSalonScheduler.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Gender")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
                         .HasColumnType("longtext");
 
                     b.Property<string>("ProfileImage")
@@ -132,6 +143,17 @@ namespace hairSalonScheduler.Migrations
                     b.ToTable("StylistAvailabilities");
                 });
 
+            modelBuilder.Entity("hairSalonScheduler.Models.Service", b =>
+                {
+                    b.HasOne("hairSalonScheduler.Models.Stylist", "Stylist")
+                        .WithMany("Services")
+                        .HasForeignKey("StylistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Stylist");
+                });
+
             modelBuilder.Entity("hairSalonScheduler.Models.StylistAvailability", b =>
                 {
                     b.HasOne("hairSalonScheduler.Models.Stylist", "Stylist")
@@ -146,6 +168,8 @@ namespace hairSalonScheduler.Migrations
             modelBuilder.Entity("hairSalonScheduler.Models.Stylist", b =>
                 {
                     b.Navigation("Availabilities");
+
+                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

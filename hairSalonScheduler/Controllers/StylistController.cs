@@ -81,7 +81,11 @@ public class StylistController : Controller
 
     public IActionResult GetStylist()
     {
-        List<Stylist> stylists = _context.Stylists.Include(s => s.Availabilities).ToList();
+        List<Stylist> stylists = _context.Stylists
+                                          .Include(s => s.Availabilities)
+                                          .Include(s => s.Services)
+                                          .ToList();
+
         return View(stylists);
     }
 

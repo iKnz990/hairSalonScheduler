@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace hairSalonScheduler.Models
 {
-    public class Service
+    public class CreateServiceViewModel
     {
-        public int Id { get; set; }
         public string Category { get; set; }
         public string Availability { get; set; }
         public decimal Price { get; set; }
-
         public int StylistId { get; set; }
-        public virtual Stylist Stylist { get; set; }
+
+        public List<SelectListItem> Stylists { get; set; }
+        public List<int> StylistIds { get; set; }
+
     }
 }

@@ -1,0 +1,34 @@
+﻿@model hairSalonScheduler.Models.CreateServiceViewModel
+@{
+    ViewData["Title"] = "Create Service";
+    var stylists = (List<hairSalonScheduler.Models.Stylist>)ViewData["Stylists"];
+}
+
+<h1>Create Service</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Category">Category</label>
+        <input asp-for="Category" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Availability">Availability</label>
+        <input asp-for="Availability" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price">Price</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StylistIds">Stylist</label>
+        <select asp-for="StylistIds" asp-items="ViewBag.StylistList" class="form-control" multiple>
+            <option value="">Select Stylist</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Service</button>
+</form>
+
