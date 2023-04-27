@@ -1,0 +1,73 @@
+﻿@model IEnumerable<hairSalonScheduler.Models.Stylist>
+
+@{
+    ViewData["Title"] = "Stylists";
+}
+
+<h1>Stylists</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Gender</th>
+            <th>Profile Image</th>
+            <th>Availability</th>
+            <th>Bio</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stylist in Model)
+        {
+            <tr>
+                <td>@stylist.Id</td>
+                <td>@stylist.Gender</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(stylist.ProfileImage))
+                    {
+                        <img src="@stylist.ProfileImage" alt="Profile Image" width="100" height="100" />
+                    }
+                    else
+                    {
+                        <span>No image available</span>
+                    }
+                </td>
+                <td>
+                    @if (stylist.Availabilities.Count > 0)
+                    {
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var availability in stylist.Availabilities)
+                                {
+                                    <tr>
+                                        <td>@availability.DayOfWeek</td>
+                                        <td>@availability.StartTime.ToString("hh\\:mm")</td>
+                                        <td>@availability.EndTime.ToString("hh\\:mm")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <span>No availability information</span>
+                    }
+                </td>
+                <td>@stylist.Bio</td>
+                <td>
+                    <a href="@Url.Action("UpdateStylist", "Stylist", new { id = stylist.Id })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("DeleteStylist", "Stylist", new { id = stylist.Id })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Index", "Home")">Home</a>

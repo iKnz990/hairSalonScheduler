@@ -1,0 +1,59 @@
+﻿@model hairSalonScheduler.Models.Stylist
+@using hairSalonScheduler.Models.Enum
+@{
+    ViewData["Title"] = "Add Stylist";
+}
+
+<h1>Add Stylist</h1>
+
+<form asp-action="CreateStylist" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Gender">Gender</label>
+        <select asp-for="Gender" class="form-control">
+            <option value="">Select Gender</option>
+            @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
+            {
+                <option value="@gender">@gender</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Availability</label>
+        <div class="row">
+            <div class="col-md-2">
+                <strong>Day</strong>
+            </div>
+            <div class="col-md-5">
+                <strong>Start Time</strong>
+            </div>
+            <div class="col-md-5">
+                <strong>End Time</strong>
+            </div>
+        </div>
+        @foreach (var availability in Model.Availabilities)
+        {
+            <div class="form-group row">
+                <div class="col-md-2">
+                    <label>@availability.DayOfWeek</label>
+                </div>
+                <div class="col-md-5">
+                    <input asp-for="@availability.StartTime" class="form-control" type="time" name="availabilityStart" />
+                </div>
+                <div class="col-md-5">
+                    <input asp-for="@availability.EndTime" class="form-control" type="time" name="availabilityEnd" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Bio">Bio</label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProfileImage">Profile Image</label>
+        <input asp-for="ProfileImage" type="file" class="form-control-file" />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Stylist</button>
+</form>

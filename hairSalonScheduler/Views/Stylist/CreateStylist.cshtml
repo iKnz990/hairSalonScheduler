@@ -1,0 +1,38 @@
+﻿@model hairSalonScheduler.Models.Stylist
+
+@{
+    ViewData["Title"] = "Add Stylist";
+}
+
+<h1>Add Stylist</h1>
+
+<form asp-action="CreateStylist" method="post">
+    <div class="form-group">
+        <label asp-for="Gender">Gender</label>
+        <select asp-for="Gender" class="form-control">
+            <option value="0">Male</option>
+            <option value="1">Female</option>
+            <option value="2">Other</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProfileImage">Profile Image</label>
+        <input asp-for="ProfileImage" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        @for (int i = 0; i < 7; i++)
+        {
+            <div class="form-group">
+                <label asp-for="@Model.Availabilities[i].DayOfWeek" class="control-label"></label>
+                <input asp-for="@Model.Availabilities[i].StartTime" class="form-control" type="time" />
+                <span> - </span>
+                <input asp-for="@Model.Availabilities[i].EndTime" class="form-control" type="time" />
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <label asp-for="Bio">Bio</label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Stylist</button>
+</form>

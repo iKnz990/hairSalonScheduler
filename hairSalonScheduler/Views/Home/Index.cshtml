@@ -2,31 +2,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Welcome to Hair Salon Scheduler</h1>
+<h1>Welcome to the hair salon scheduler!</h1>
 
-<ul>
-    <li><a asp-controller="Admin" asp-action="Users">Admin - View Users</a></li>
-    <br />
-    <li><a asp-controller="Admin" asp-action="CreateStylist">Admin - Create Stylists</a></li>
-    <li><a asp-controller="Admin" asp-action="Stylists">Admin - View Stylists</a></li>
-    <br />
-    <li><a asp-controller="Admin" asp-action="CreateService">Admin - Add New Service</a></li>
+<p>Use the links in the navigation menu to access the different sections of the application:</p>
 
-    <li><a asp-controller="Admin" asp-action="SocialMediaAccounts">Admin - View Social Media Accounts</a></li>
-    <li><a asp-controller="Admin" asp-action="StylistServices">Admin - View Stylist Services</a></li>
-    <li><a asp-controller="Admin" asp-action="StylistHours">Admin - View Stylist Hours</a></li>
-    <li><a asp-controller="Admin" asp-action="PromotionalPricings">Admin - View Promotional Pricings</a></li>
-
-    <li><a asp-controller="Admin" asp-action="Appointments">Admin - View Appointments</a></li>
-    <br /><br />
-    
-    <br /><br />
-    <li><a asp-controller="Appointments" asp-action="Index">Appointments</a></li>
-    <li><a asp-controller="PromotionalPricings" asp-action="Index">Promotional Pricings</a></li>
-    <li><a asp-controller="SocialMediaAccounts" asp-action="Index">Social Media Accounts</a></li>
-    <li><a asp-controller="Stylists" asp-action="Register">Stylists</a></li>
-    <li><a asp-controller="StylistHours" asp-action="Index">Stylist Hours</a></li>
-    <li><a asp-controller="StylistServices" asp-action="Index">Stylist Services</a></li>
-    <li><a asp-controller="TheServices" asp-action="Index">Services</a></li>
-    <li><a asp-controller="TheUsers" asp-action="Register">Users</a></li>
-</ul>
+<p>
+    <a href="@Url.Action("AddStylist", "Stylist")" class="btn btn-primary">Add Stylist</a>
+</p>
