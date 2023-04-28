@@ -1,5 +1,6 @@
 ﻿using hairSalonScheduler.Models.Enum;
 using System;
+using System.Collections.Generic;
 
 namespace hairSalonScheduler.Models
 {
@@ -13,5 +14,9 @@ namespace hairSalonScheduler.Models
         public Gender Gender { get; set; }
         public string Address { get; set; }
         public int LoyaltyPoints { get; set; }
+
+
+        public List<Appointment> Appointments { get; set; }
+
     }
 }

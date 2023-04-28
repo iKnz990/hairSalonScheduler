@@ -13,5 +13,6 @@ namespace hairSalonScheduler.Models
 
         public List<StylistAvailability> Availabilities { get; set; }
         public List<Service> Services { get; set; }
+        public List<Appointment> Appointments { get; set; }
     }
 }

@@ -190,7 +190,7 @@ public class StylistController : Controller
                         if (removedService != null)
                         {
                             stylist.Services.Remove(removedService);
-                            _context.Services.Remove(removedService); // Add this line
+                            _context.Services.Remove(removedService);
                         }
                     }
                 }

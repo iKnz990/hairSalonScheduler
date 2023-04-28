@@ -1,0 +1,64 @@
+﻿@model hairSalonScheduler.Models.Appointment
+
+@{
+    ViewData["Title"] = "Create Appointment";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateAppointment" method="post">
+            <div class="form-group">
+                <label asp-for="SelectedDateTime">Date and Time</label>
+                <input type="text" asp-for="SelectedDateTime" class="form-control datetimepicker" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ServiceId">Service</label>
+                <select asp-for="ServiceId" asp-items="ViewBag.Services" class="form-control service-select">
+                    <option value="">-- Select Service --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="StylistId">Stylist</label>
+                <select asp-for="StylistId" asp-items="ViewBag.Stylists" class="form-control stylist-select">
+                    <option value="">-- Select Stylist --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerId">Customer</label>
+                <select asp-for="CustomerId" asp-items="ViewBag.Customers" class="form-control">
+                    <option value="">-- Select Customer --</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tempusdominus-bootstrap-4@5.3.2/build/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#serviceId').change(function () {
+                var serviceId = $(this).val();
+                if (serviceId) {
+                    $.getJSON('@Url.Action("GetAvailableStylists", "Appointment")', { serviceId: serviceId }, function (data) {
+                        var items = '<option value="">Select Stylist</option>';
+                        $.each(data, function (i, stylist) {
+                            items += '<option value="' + stylist.id + '">' + stylist.name + '</option>';
+                        });
+                        $('#stylistId').html(items);
+                    });
+                }
+                else {
+                    $('#stylistId').html('<option value="">Select Service First</option>');
+                }
+            });
+        });
+    </script>
+}

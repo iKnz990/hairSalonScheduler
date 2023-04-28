@@ -1,0 +1,34 @@
+﻿@model IEnumerable<hairSalonScheduler.Models.Appointment>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Selected Date Time</th>
+            <th>Status</th>
+            <th>Payment Status</th>
+            <th>Customer</th>
+            <th>Stylist</th>
+            <th>Service</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.SelectedDateTime</td>
+                <td>@appointment.Status</td>
+                <td>@appointment.PaymentStatus</td>
+                <td>@appointment.Customer.Name</td>
+                <td>@appointment.Stylist.Name</td>
+                <td>@appointment.Service.Category</td>
+                <td>@appointment.Service.Price</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@appointment.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@appointment.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using Microsoft.EntityFrameworkCore;
+using hairSalonScheduler.Services;
+using hairSalonScheduler.Models;
 
 namespace hairSalonScheduler
 {
@@ -17,11 +19,14 @@ namespace hairSalonScheduler
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddDbContext<SalonDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 30))));
+            services.AddDbContext<SalonDbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                    new MySqlServerVersion(new Version(8, 0, 30))));
+            services.AddScoped<IStylistService, StylistService>();
+            services.AddScoped<ICustomerService, CustomerService>(); // Add this line
         }
 
 
