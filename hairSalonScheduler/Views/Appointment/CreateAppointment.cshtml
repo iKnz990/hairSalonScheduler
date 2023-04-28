@@ -60,5 +60,44 @@
                 }
             });
         });
+         </script>
+
+    <script>
+        $(function () {
+            // Store all stylists in a variable
+            var allStylists = @Html.Raw(Json.Serialize(ViewBag.Stylists));
+
+            // Filter stylists based on the selected service
+            function filterStylists(serviceId) {
+                if (serviceId) {
+                    $.getJSON('@Url.Action("GetAvailableStylists", "Appointment")', { serviceId: serviceId }, function (data) {
+                        var items = '<option value="">Select Stylist</option>';
+                        $.each(data, function (i, stylist) {
+                            items += '<option value="' + stylist.id + '">' + stylist.name + '</option>';
+                        });
+                        $('#StylistId').html(items);
+                    });
+                }
+                else {
+                    var items = '<option value="">Select Service First</option>';
+                    $.each(allStylists, function (i, stylist) {
+                        items += '<option value="' + stylist.value + '">' + stylist.text + '</option>';
+                    });
+                    $('#StylistId').html(items);
+                }
+            }
+
+            // Call filterStylists() function when the ServiceId dropdown is changed
+            $('#ServiceId').change(function () {
+                var serviceId = $(this).val();
+                filterStylists(serviceId);
+            });
+
+            // Filter stylists on page load if a service is already selected
+            var initialServiceId = $('#ServiceId').val();
+            if (initialServiceId) {
+                filterStylists(initialServiceId);
+            }
+        });
     </script>
 }

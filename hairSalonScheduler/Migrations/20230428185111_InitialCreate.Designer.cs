@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace hairSalonScheduler.Migrations
 {
     [DbContext(typeof(SalonDbContext))]
-    [Migration("20230428150315_InitialCreate")]
+    [Migration("20230428185111_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

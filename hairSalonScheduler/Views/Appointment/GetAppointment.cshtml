@@ -16,19 +16,19 @@
     <tbody>
         @foreach (var appointment in Model)
         {
-            <tr>
-                <td>@appointment.SelectedDateTime</td>
-                <td>@appointment.Status</td>
-                <td>@appointment.PaymentStatus</td>
-                <td>@appointment.Customer.Name</td>
-                <td>@appointment.Stylist.Name</td>
-                <td>@appointment.Service.Category</td>
-                <td>@appointment.Service.Price</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@appointment.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@appointment.Id">Delete</a>
-                </td>
-            </tr>
+    <tr>
+                <td>@Html.DisplayFor(modelItem => appointment.SelectedDateTime)</td>
+                <td>@Html.DisplayFor(modelItem => appointment.Status)</td>
+                <td>@Html.DisplayFor(modelItem => appointment.PaymentStatus)</td>
+                <td>@Html.DisplayFor(modelItem => appointment.Customers.Name)</td>
+                <td>@Html.DisplayFor(modelItem => appointment.Stylists.Name)</td>
+                <td>@Html.DisplayFor(modelItem => appointment.Services.Category)</td>
+                <td>@Html.DisplayFor(modelItem => appointment.Services.Price)</td>
+        <td>
+                    <a asp-action="EditAppointment" asp-route-id="@appointment.Id">Edit</a> |
+                    <a asp-action="DeleteAppointment" asp-route-id="@appointment.Id">Delete</a>
+        </td>
+    </tr>
         }
     </tbody>
 </table>

@@ -25,8 +25,11 @@ namespace hairSalonScheduler
             services.AddDbContext<SalonDbContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
                     new MySqlServerVersion(new Version(8, 0, 30))));
+            //dependency inject interfaces
             services.AddScoped<IStylistService, StylistService>();
-            services.AddScoped<ICustomerService, CustomerService>(); // Add this line
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IAppointmentService, AppointmentService>();
+
         }
 
 

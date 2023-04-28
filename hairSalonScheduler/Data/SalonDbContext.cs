@@ -26,13 +26,13 @@ public class SalonDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Appointment>()
-            .HasOne(a => a.Customer)
+            .HasOne(a => a.Customers)
             .WithMany(c => c.Appointments)
             .HasForeignKey(a => a.CustomerId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Appointment>()
-            .HasOne(a => a.Stylist)
+            .HasOne(a => a.Stylists)
             .WithMany(s => s.Appointments)
             .HasForeignKey(a => a.StylistId)
             .OnDelete(DeleteBehavior.Cascade);

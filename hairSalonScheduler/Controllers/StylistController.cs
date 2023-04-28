@@ -118,7 +118,6 @@ public class StylistController : Controller
         if (ModelState.IsValid)
         {
             _context.Entry(updatedStylist).State = EntityState.Detached;
-
             Stylist stylist = _context.Stylists.Include(s => s.Availabilities).FirstOrDefault(s => s.Id == id);
             if (stylist != null)
             {
