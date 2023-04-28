@@ -1,0 +1,94 @@
+﻿@model hairSalonScheduler.Models.Stylist
+@{
+    ViewData["Title"] = "Edit Stylist";
+}
+
+<h1>Edit Stylist</h1>
+
+<form asp-action="UpdateStylist" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Gender">Gender</label>
+        <select asp-for="Gender" class="form-control">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProfileImage">Profile Image</label>
+        <input asp-for="ProfileImage" type="file" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Bio">Bio</label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+    </div>
+    <!--Availabilities-->
+    <div class="form-group">
+        <label>Availabilities</label>
+        @for (int i = 0; i < Model.Availabilities.Count; i++)
+        {
+            <div class="form-row">
+                <div class="col">
+                    <label>@Model.Availabilities[i].DayOfWeek</label>
+                    <select asp-for="Availabilities[i].StartTime" class="form-control">
+                        @for (int j = 0; j < 24; j++)
+                        {
+                            <option value="@TimeSpan.FromHours(j)">@TimeSpan.FromHours(j).ToString("hh\\:mm")</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <label>to</label>
+                    <select asp-for="Availabilities[i].EndTime" class="form-control">
+                        @for (int j = 0; j < 24; j++)
+                        {
+                            <option value="@TimeSpan.FromHours(j)">@TimeSpan.FromHours(j).ToString("hh\\:mm")</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+    </div>
+    <!-- Add a section for adding and removing services -->
+    <div class="form-group">
+        <label>Services</label>
+        <select id="services-select" multiple class="form-control">
+            @foreach (var service in Model.Services)
+            {
+                <option value="@service.Id">@service.Category</option>
+            }
+        </select>
+        <button id="remove-service-btn" type="button" class="btn btn-danger mt-2">Remove Service</button>
+    </div>
+
+    <div id="removed-services-container" style="display:none;">  </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="GetStylist" class="btn btn-secondary">Cancel</a>
+</form>
+
+
+@section Scripts {
+    <script>
+        document.getElementById("remove-service-btn").addEventListener("click", function () {
+            var select = document.getElementById("services-select");
+            var removedServicesContainer = document.getElementById("removed-services-container");
+
+            for (var i = 0; i < select.selectedOptions.length; i++) {
+                var option = select.selectedOptions[i];
+                select.removeChild(option);
+
+                var hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "RemovedServices[]";
+                hiddenInput.value = option.value;
+                removedServicesContainer.appendChild(hiddenInput);
+            }
+        });
+    </script>
+}

@@ -18,11 +18,7 @@ public class SalonDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Service>()
-            .Property(b => b.StaffIds)
-            .HasConversion(
-                v => string.Join(',', v),
-                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList());
+
 
         modelBuilder.Entity<StylistAvailability>()
             .HasOne(sa => sa.Stylist)

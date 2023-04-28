@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace hairSalonScheduler.Migrations
 {
     [DbContext(typeof(SalonDbContext))]
-    [Migration("20230427152610_InitialCreate")]
+    [Migration("20230427215806_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -56,11 +56,20 @@ namespace hairSalonScheduler.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<int>("LoyaltyPoints")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -81,9 +90,6 @@ namespace hairSalonScheduler.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
-
-                    b.Property<string>("StaffIds")
-                        .HasColumnType("longtext");
 
                     b.Property<int>("StylistId")
                         .HasColumnType("int");

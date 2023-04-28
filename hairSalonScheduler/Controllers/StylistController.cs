@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 public class StylistController : Controller
 {
@@ -78,6 +80,25 @@ public class StylistController : Controller
         return View(stylist);
     }
 
+    [HttpGet]
+    public IActionResult EditStylist(int id)
+    {
+        Stylist stylist = _context.Stylists
+            .Include(s => s.Availabilities)
+            .Include(s => s.Services)
+            .FirstOrDefault(s => s.Id == id);
+
+        if (stylist == null)
+        {
+            return NotFound();
+        }
+
+        // Add available services to the ViewBag
+        ViewBag.Services = _context.Services.ToList();
+        ViewData["Services"] = JsonSerializer.Serialize(_context.Services.ToList(), new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve });
+
+        return View(stylist);
+    }
 
     public IActionResult GetStylist()
     {
@@ -90,24 +111,96 @@ public class StylistController : Controller
     }
 
 
-    public IActionResult UpdateStylist(int id, Stylist updatedStylist)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdateStylist(int id, Stylist updatedStylist, IFormFile newProfileImage, List<string> availabilityStart, List<string> availabilityEnd, List<int> Services, List<int> RemovedServices)
     {
         if (ModelState.IsValid)
         {
-            Stylist stylist = _context.Stylists.FirstOrDefault(s => s.Id == id);
+            _context.Entry(updatedStylist).State = EntityState.Detached;
+
+            Stylist stylist = _context.Stylists.Include(s => s.Availabilities).FirstOrDefault(s => s.Id == id);
             if (stylist != null)
             {
-                stylist.Gender = updatedStylist.Gender;
-                stylist.ProfileImage = updatedStylist.ProfileImage;
-                stylist.Availabilities = updatedStylist.Availabilities;
-                stylist.Bio = updatedStylist.Bio;
+                if (newProfileImage != null)
+                {
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + newProfileImage.FileName;
+                    var imagesFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
 
+                    Directory.CreateDirectory(imagesFolder);
+
+                    var filePath = Path.Combine(imagesFolder, uniqueFileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await newProfileImage.CopyToAsync(stream);
+                    }
+                    stylist.ProfileImage = "/images/" + uniqueFileName;
+                }
+
+                stylist.Name = updatedStylist.Name;
+                stylist.Gender = updatedStylist.Gender;
+                stylist.Bio = updatedStylist.Bio;
+                stylist.Services = updatedStylist.Services;
+                stylist.Availabilities = updatedStylist.Availabilities;
+                //Availabilities
+                for (int i = 0; i < availabilityStart.Count; i++)
+                {
+                    TimeSpan.TryParse(availabilityStart[i], out TimeSpan startTime);
+                    TimeSpan.TryParse(availabilityEnd[i], out TimeSpan endTime);
+
+                    var dayOfWeek = (DayOfWeek)i;
+                    var availability = stylist.Availabilities.FirstOrDefault(a => a.DayOfWeek == dayOfWeek);
+                    if (availability != null)
+                    {
+                        availability.StartTime = startTime;
+                        availability.EndTime = endTime;
+                    }
+                    else
+                    {
+                        availability = new StylistAvailability
+                        {
+                            DayOfWeek = dayOfWeek,
+                            StartTime = startTime,
+                            EndTime = endTime,
+                            StylistId = id
+                        };
+                        stylist.Availabilities.Add(availability);
+                    }
+                    _context.Entry(availability).State = EntityState.Modified;
+
+                }
+
+                // Services
+                var currentServices = _context.Services.Where(s => s.StylistId == id).ToList();
+                foreach (var serviceId in Services)
+                {
+                    var service = _context.Services.Find(serviceId);
+                    if (service != null)
+                    {
+                        service.StylistId = id;
+                    }
+                }
+
+                // Remove services
+                if (RemovedServices != null)
+                {
+                    foreach (var removedServiceId in RemovedServices)
+                    {
+                        var removedService = _context.Services.Find(removedServiceId);
+                        if (removedService != null)
+                        {
+                            stylist.Services.Remove(removedService);
+                            _context.Services.Remove(removedService); // Add this line
+                        }
+                    }
+                }
+                _context.Update(stylist);
                 _context.SaveChanges();
                 return RedirectToAction("GetStylist");
             }
         }
 
-        return View(updatedStylist);
+        return View("EditStylist", updatedStylist);
     }
 
     public IActionResult DeleteStylist(int id)
