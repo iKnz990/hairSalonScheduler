@@ -33,7 +33,6 @@ public class StylistController : Controller
         }
         return View(stylist);
     }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateStylist(Stylist stylist, IFormFile profileImage, List<string> availabilityStart, List<string> availabilityEnd)
@@ -42,7 +41,9 @@ public class StylistController : Controller
         {
             if (profileImage != null)
             {
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + profileImage.FileName;
+                var nameWithoutSpaces = stylist.Name.ToLower().Replace(" ", "_");
+                var fileExtension = Path.GetExtension(profileImage.FileName);
+                var uniqueFileName = $"{nameWithoutSpaces}{fileExtension}";
                 var imagesFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
 
                 // Create the images folder if it doesn't exist

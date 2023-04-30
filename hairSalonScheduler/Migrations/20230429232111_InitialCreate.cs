@@ -183,6 +183,30 @@ namespace hairSalonScheduler.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "StylistAvailabilities",
+                columns: new[] { "Id", "DayOfWeek", "EndTime", "StartTime", "StylistId" },
+                values: new object[,]
+                {
+                    { 1, 1, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 1 },
+                    { 2, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 1 },
+                    { 3, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 1 },
+                    { 4, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 1 },
+                    { 5, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 1 },
+                    { 6, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 1 },
+                    { 7, 1, new TimeSpan(0, 17, 0, 0, 0), new TimeSpan(0, 9, 0, 0, 0), 2 },
+                    { 8, 2, new TimeSpan(0, 17, 0, 0, 0), new TimeSpan(0, 9, 0, 0, 0), 2 },
+                    { 9, 2, new TimeSpan(0, 17, 0, 0, 0), new TimeSpan(0, 9, 0, 0, 0), 2 },
+                    { 10, 2, new TimeSpan(0, 17, 0, 0, 0), new TimeSpan(0, 9, 0, 0, 0), 2 },
+                    { 11, 2, new TimeSpan(0, 17, 0, 0, 0), new TimeSpan(0, 9, 0, 0, 0), 2 },
+                    { 12, 2, new TimeSpan(0, 17, 0, 0, 0), new TimeSpan(0, 9, 0, 0, 0), 2 },
+                    { 13, 1, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 3 },
+                    { 14, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 3 },
+                    { 15, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 3 },
+                    { 16, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 3 },
+                    { 17, 2, new TimeSpan(0, 18, 0, 0, 0), new TimeSpan(0, 10, 0, 0, 0), 3 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Appointments",
                 columns: new[] { "Id", "CustomerId", "PaymentStatus", "SelectedDateTime", "ServiceId", "Status", "StylistId" },
                 values: new object[,]

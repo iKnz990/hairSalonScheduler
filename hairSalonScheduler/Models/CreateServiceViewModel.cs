@@ -12,6 +12,8 @@ namespace hairSalonScheduler.Models
 
         public List<SelectListItem> Stylists { get; set; }
         public List<int> StylistIds { get; set; }
+        public List<SelectListItem> Availabilities { get; set; } = new List<SelectListItem>();
+
 
     }
 }

@@ -8,27 +8,66 @@
 
 <form asp-action="Create" method="post">
     <div class="form-group">
+        <label asp-for="StylistIds">Stylist</label>
+        <select asp-for="StylistIds" asp-items="ViewBag.StylistList" class="form-control" multiple id="stylist-select">
+            <option value="">Select Stylist</option>
+        </select>
+    </div>
+    <div class="form-group">
         <label asp-for="Category">Category</label>
-        <input asp-for="Category" class="form-control" />
+        <select asp-for="Category" class="form-control">
+            <option value="">Select Category</option>
+            <option value="Haircut">Haircut</option>
+            <option value="Color">Color</option>
+            <option value="Highlights">Highlights</option>
+            <option value="Balayage">Balayage</option>
+            <option value="Blowout">Blowout</option>
+            <option value="Updo">Updo</option>
+            <option value="Keratin Treatment">Keratin Treatment</option>
+            <option value="Extensions">Extensions</option>
+            <option value="Perm">Perm</option>
+        </select>
     </div>
 
     <div class="form-group">
         <label asp-for="Availability">Availability</label>
-        <input asp-for="Availability" class="form-control" />
+        <select asp-for="Availability" class="form-control" id="availability-select">
+            <option value="">Select Availability</option>
+        </select>
     </div>
 
     <div class="form-group">
         <label asp-for="Price">Price</label>
-        <input asp-for="Price" class="form-control" />
+        <div class="input-group">
+            <input asp-for="Price" class="form-control" type="text" id="price-spinner" />
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="reset-price-spinner">Reset</button>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="StylistIds">Stylist</label>
-        <select asp-for="StylistIds" asp-items="ViewBag.StylistList" class="form-control" multiple>
-            <option value="">Select Stylist</option>
-        </select>
-    </div>
+
 
     <button type="submit" class="btn btn-primary">Create Service</button>
 </form>
 
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css" />
+
+    <script>
+        $(function () {
+            $("#price-spinner").spinner({
+                min: 0,
+                max: 2000,
+                step: 5,
+                numberFormat: "c"
+            });
+        });
+
+
+    </script>
+
+
+}

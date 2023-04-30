@@ -1,5 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +11,51 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5D3fd1zvk+xUf+VX9y8uR7GURDeJf+bmUXV0BbpaN" crossorigin="anonymous" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
- 
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Hair Salon</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="stylistDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Stylists
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="stylistDropdown">
+                                <a class="dropdown-item" asp-controller="Stylist" asp-action="GetStylist">All Stylists</a>
+                                <a class="dropdown-item" asp-controller="Stylist" asp-action="AddStylist">Add Stylist</a>
+                                <a class="dropdown-item" asp-controller="Service" asp-action="Create">Create Service</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="customerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Customers
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="customerDropdown">
+                                <a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomer">All Customers</a>
+                                <a class="dropdown-item" asp-controller="Customer" asp-action="Register">Register Customer</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="appointmentDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Appointments
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="appointmentDropdown">
+                                <a class="dropdown-item" asp-controller="Appointment" asp-action="GetAppointment">All Appointments</a>
+                                <a class="dropdown-item" asp-controller="Appointment" asp-action="CreateAppointment">Create Appointment</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
 

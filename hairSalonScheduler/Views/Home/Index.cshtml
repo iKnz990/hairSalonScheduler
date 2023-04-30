@@ -1,30 +1,45 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<h1>Welcome to the hair salon scheduler!</h1>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Welcome to Our Hair Salon</h1>
+        <p class="lead">Experience the best in hair care and styling at our salon. Our talented stylists are dedicated to providing you with a personalized and enjoyable experience.</p>
+    </div>
+</div>
 
-<p>Use the links in the navigation menu to access the different sections of the application:</p>
-
-<p>
-    <a href="@Url.Action("AddStylist", "Stylist")" class="btn btn-primary">Add Stylist</a>
-    <a asp-controller="Stylist" asp-action="GetStylist" class="btn btn-primary">Get Stylist</a>
-</p>
-
-<p>
-    <a asp-controller="Customer" asp-action="Register" class="btn btn-primary">Register a User</a>
-    <a asp-controller="Customer" asp-action="Register" class="btn btn-primary">View Users</a>
-</p>
-
-<p>
-    <a asp-controller="Appointment" asp-action="CreateAppointment" class="btn btn-primary">Schedule an Appointment</a>
-    <a asp-controller="Appointment" asp-action="GetAppointment" class="btn btn-primary">View Appointments</a>
-
-</p>
-<p>
-    <a asp-controller="Service" asp-action="Create" class="btn btn-primary">Create Service</a>
-    <a asp-controller="Service" asp-action="Create" class="btn btn-primary">View Service</a>
-
-
-</p>
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Stylist Image">
+                <div class="card-body">
+                    <h5 class="card-title">Our Stylists</h5>
+                    <p class="card-text">Meet our team of skilled stylists who are passionate about their craft and dedicated to helping you look and feel your best.</p>
+                    <a asp-controller="Stylist" asp-action="GetStylist" class="btn btn-primary disabled">View Stylists</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Services Image">
+                <div class="card-body">
+                    <h5 class="card-title">Our Services</h5>
+                    <p class="card-text">Explore our wide range of hair care services, including cuts, styling, coloring, and treatments, tailored to your individual needs.</p>
+                    <a asp-controller="Service" asp-action="GetService" class="btn btn-primary disabled">View Services</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Appointment Image">
+                <div class="card-body">
+                    <h5 class="card-title">Book an Appointment</h5>
+                    <p class="card-text">Ready for a new look or just need a trim? Book an appointment with one of our talented stylists today!</p>
+                    <a asp-controller="Appointment" asp-action="CreateAppointment" class="btn btn-primary disabled">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace hairSalonScheduler.Migrations
 {
     [DbContext(typeof(SalonDbContext))]
-    [Migration("20230428185111_InitialCreate")]
+    [Migration("20230429232111_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -302,33 +302,171 @@ namespace hairSalonScheduler.Migrations
                     b.HasIndex("StylistId");
 
                     b.ToTable("StylistAvailabilities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DayOfWeek = 1,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DayOfWeek = 1,
+                            EndTime = new TimeSpan(0, 17, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            StylistId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 17, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            StylistId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 17, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            StylistId = 2
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 17, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            StylistId = 2
+                        },
+                        new
+                        {
+                            Id = 11,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 17, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            StylistId = 2
+                        },
+                        new
+                        {
+                            Id = 12,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 17, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0),
+                            StylistId = 2
+                        },
+                        new
+                        {
+                            Id = 13,
+                            DayOfWeek = 1,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 3
+                        },
+                        new
+                        {
+                            Id = 14,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 3
+                        },
+                        new
+                        {
+                            Id = 15,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 3
+                        },
+                        new
+                        {
+                            Id = 16,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 3
+                        },
+                        new
+                        {
+                            Id = 17,
+                            DayOfWeek = 2,
+                            EndTime = new TimeSpan(0, 18, 0, 0, 0),
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0),
+                            StylistId = 3
+                        });
                 });
 
             modelBuilder.Entity("hairSalonScheduler.Models.Appointment", b =>
                 {
-                    b.HasOne("hairSalonScheduler.Models.Customer", "Customer")
+                    b.HasOne("hairSalonScheduler.Models.Customer", "Customers")
                         .WithMany("Appointments")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("hairSalonScheduler.Models.Service", "Service")
+                    b.HasOne("hairSalonScheduler.Models.Service", "Services")
                         .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("hairSalonScheduler.Models.Stylist", "Stylist")
+                    b.HasOne("hairSalonScheduler.Models.Stylist", "Stylists")
                         .WithMany("Appointments")
                         .HasForeignKey("StylistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("Customers");
 
-                    b.Navigation("Service");
+                    b.Navigation("Services");
 
-                    b.Navigation("Stylist");
+                    b.Navigation("Stylists");
                 });
 
             modelBuilder.Entity("hairSalonScheduler.Models.Service", b =>
