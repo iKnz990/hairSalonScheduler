@@ -36,9 +36,18 @@ namespace hairSalonScheduler.Controllers
         //Create the Appointment
         public IActionResult CreateAppointment()
         {
-            ViewBag.Services = new SelectList(_dbContext.Services, "Id", "Category");
             ViewBag.Customers = new SelectList(_dbContext.Customers, "Id", "Name");
             ViewBag.Stylists = new SelectList(_dbContext.Stylists, "Id", "Name");
+            ViewBag.ServicesWithPricesAndStylists = _dbContext.Services.Include(s => s.Stylist).ToList();
+
+            var serviceList = _dbContext.Services.Include(s => s.Stylist).Select(s => new SelectListItem
+            {
+                Value = $"{s.Id},{s.StylistId}",
+                Text = $"{s.Category} by: {s.Stylist.Name} -- {s.Price.ToString("C")}"
+            }).ToList();
+
+            ViewBag.Services = new SelectList(serviceList, "Value", "Text");
+
             return View();
         }
 
@@ -60,7 +69,7 @@ namespace hairSalonScheduler.Controllers
             _dbContext.Appointments.Add(appointment);
             _dbContext.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("GetAppointment");
         }
 
         //Edit the Appointments
