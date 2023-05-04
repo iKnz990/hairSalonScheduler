@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<hairSalonScheduler.Models.Appointment>
 
+<h1>Appointments</h1>
+<a class="btn btn-secondary" asp-controller="Appointment" asp-action="CreateAppointment">Create Appointment</a>
 <table class="table">
     <thead>
         <tr>
@@ -25,8 +27,8 @@
                 <td>@Html.DisplayFor(modelItem => appointment.Services.Category)</td>
                 <td>@Html.DisplayFor(modelItem => appointment.Services.Price)</td>
         <td>
-                    <a asp-action="EditAppointment" asp-route-id="@appointment.Id">Edit</a> |
-                    <a asp-action="DeleteAppointment" asp-route-id="@appointment.Id">Delete</a>
+                    <a asp-action="EditAppointment" class="btn btn-sm btn btn-warning mr-2" asp-route-id="@appointment.Id">Edit</a> |
+                    <a asp-action="DeleteAppointment" class="btn btn-sm btn-danger" asp-route-id="@appointment.Id">Delete</a>
         </td>
     </tr>
         }

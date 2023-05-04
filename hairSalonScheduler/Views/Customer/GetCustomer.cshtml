@@ -3,7 +3,15 @@
     ViewData["Title"] = "GetCustomer";
 }
 
+@if (!String.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+{
+    <div class="alert alert-danger">
+        @ViewData["ErrorMessage"]
+    </div>
+}
+
 <h1>Customers</h1>
+<a class="btn btn-secondary" asp-controller="Customer" asp-action="Register">Register Customer</a>
 <table class="table">
     <thead>
         <tr>
@@ -18,39 +26,68 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var customer in Model)
+        @if (Model != null && Model.Count() > 0)
+        {
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.Name</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.DateOfBirth.ToShortDateString()</td>
+                    <td>@customer.Gender</td>
+                    <td>@customer.Address</td>
+                    <td>@customer.LoyaltyPoints</td>
+                    <td>
+                        @if (customer.Appointments != null && customer.Appointments.Count() > 0)
+                        {
+                            @foreach (var appointment in customer.Appointments)
+                            {
+                                <p>@appointment.SelectedDateTime - @appointment.Services.Category</p>
+                                <div>
+                                    <a asp-controller="Appointment" asp-action="EditAppointment" asp-route-id="@appointment.Id" class="btn btn-sm btn btn-warning mr-2">
+                                        Edit Appointment
+                                    </a>
+                                    <a asp-controller="Appointment" asp-action="DeleteAppointment" asp-route-id="@appointment.Id" class="btn btn-sm btn-danger">
+                                        Delete Appointment
+                                    </a>
+                                </div>
+                                <br />
+                            }
+                        }
+                        else
+                        {
+                            <p>No appointments found.</p>
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="Customer" asp-action="EditCustomer" asp-route-id="@customer.Id" class="btn btn-sm btn-primary">
+                            Edit
+                        </a>
+                        
+                        <a asp-controller="Customer" asp-action="DeleteCustomer" asp-route-id="@customer.Id" class="btn btn-sm btn-danger">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>@customer.Name</td>
-                <td>@customer.Email</td>
-                <td>@customer.DateOfBirth.ToShortDateString()</td>
-                <td>@customer.Gender</td>
-                <td>@customer.Address</td>
-                <td>@customer.LoyaltyPoints</td>
-                <td>
-                    @foreach (var appointment in customer.Appointments)
-                    {
-                        <p>@appointment.SelectedDateTime - @appointment.Services.Category</p>                        
-                        <div>
-                            <a asp-controller="Appointment" asp-action="EditAppointment" asp-route-id="@appointment.Id" class="btn btn-sm btn-primary mr-2">
-                                Edit
-                            </a>
-                            <a asp-controller="Appointment" asp-action="DeleteAppointment" asp-route-id="@appointment.Id" class="btn btn-sm btn-danger">
-                                Delete
-                            </a>
-                        </div>
-                        <br />
-                    }
-                </td>
-                <td>
-                    <a asp-controller="Customer" asp-action="EditCustomer" asp-route-id="@customer.Id" class="btn btn-sm btn-primary">
-                        Edit
-                    </a>
-                    <a asp-controller="Customer" asp-action="DeleteCustomer" asp-route-id="@customer.Id" class="btn btn-sm btn-danger">
-                        Delete
-                    </a>
-                </td>
+                <td colspan="8">No customers found.</td>
             </tr>
         }
     </tbody>
 </table>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.SelectMany(kvp => kvp.Value.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

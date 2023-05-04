@@ -1,0 +1,33 @@
+﻿@model List<hairSalonScheduler.Models.Service>
+@{
+    ViewData["Title"] = "Services";
+}
+
+<h1>Services</h1>
+<a class="btn btn-secondary" asp-controller="Service" asp-action="GetService">All Services</a>
+<a class="btn btn-secondary" asp-controller="Service" asp-action="Create">Create Service</a>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Stylist</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model)
+            {
+                <tr>
+                    <td>@service.Category</td>
+                    <td>@service.Stylist.Name</td>
+                    <td>@service.Price.ToString("C")</td>
+                    <td>
+                        <a asp-action="EditService" asp-route-id="@service.Id" class="btn btn-warning">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

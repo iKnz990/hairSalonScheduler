@@ -5,7 +5,7 @@
 }
 
 <h1>Stylists</h1>
-
+<a class="btn btn-secondary" asp-controller="Stylist" asp-action="AddStylist">Add New Stylist</a>
 <table class="table">
     <thead>
         <tr>
@@ -70,7 +70,7 @@
                         <ul>
                             @foreach (var service in stylist.Services)
                             {
-                                <li>@service.Category</li>
+                                <li>@service.Category - Price: @service.Price.ToString("C")</li>
                             }
                         </ul>
                     }
@@ -88,4 +88,3 @@
         }
     </tbody>
 </table>
-<a href="@Url.Action("Index", "Home")" class="btn btn-primary">Home</a>

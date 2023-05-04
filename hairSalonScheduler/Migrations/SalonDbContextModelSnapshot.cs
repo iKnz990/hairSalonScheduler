@@ -28,7 +28,9 @@ namespace hairSalonScheduler.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PaymentStatus")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("SelectedDateTime")
                         .HasColumnType("datetime(6)");
@@ -37,7 +39,9 @@ namespace hairSalonScheduler.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int>("StylistId")
                         .HasColumnType("int");
@@ -92,12 +96,15 @@ namespace hairSalonScheduler.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Gender")
@@ -107,10 +114,14 @@ namespace hairSalonScheduler.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -162,7 +173,9 @@ namespace hairSalonScheduler.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Category")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
@@ -234,16 +247,22 @@ namespace hairSalonScheduler.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Bio")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("ProfileImage")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.HasKey("Id");
 
@@ -320,7 +339,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 3,
-                            DayOfWeek = 2,
+                            DayOfWeek = 3,
                             EndTime = new TimeSpan(0, 18, 0, 0, 0),
                             StartTime = new TimeSpan(0, 10, 0, 0, 0),
                             StylistId = 1
@@ -328,7 +347,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 4,
-                            DayOfWeek = 2,
+                            DayOfWeek = 4,
                             EndTime = new TimeSpan(0, 18, 0, 0, 0),
                             StartTime = new TimeSpan(0, 10, 0, 0, 0),
                             StylistId = 1
@@ -336,7 +355,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 5,
-                            DayOfWeek = 2,
+                            DayOfWeek = 5,
                             EndTime = new TimeSpan(0, 18, 0, 0, 0),
                             StartTime = new TimeSpan(0, 10, 0, 0, 0),
                             StylistId = 1
@@ -344,7 +363,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 6,
-                            DayOfWeek = 2,
+                            DayOfWeek = 6,
                             EndTime = new TimeSpan(0, 18, 0, 0, 0),
                             StartTime = new TimeSpan(0, 10, 0, 0, 0),
                             StylistId = 1
@@ -368,7 +387,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 9,
-                            DayOfWeek = 2,
+                            DayOfWeek = 3,
                             EndTime = new TimeSpan(0, 17, 0, 0, 0),
                             StartTime = new TimeSpan(0, 9, 0, 0, 0),
                             StylistId = 2
@@ -376,7 +395,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 10,
-                            DayOfWeek = 2,
+                            DayOfWeek = 4,
                             EndTime = new TimeSpan(0, 17, 0, 0, 0),
                             StartTime = new TimeSpan(0, 9, 0, 0, 0),
                             StylistId = 2
@@ -384,7 +403,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 11,
-                            DayOfWeek = 2,
+                            DayOfWeek = 5,
                             EndTime = new TimeSpan(0, 17, 0, 0, 0),
                             StartTime = new TimeSpan(0, 9, 0, 0, 0),
                             StylistId = 2
@@ -392,7 +411,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 12,
-                            DayOfWeek = 2,
+                            DayOfWeek = 6,
                             EndTime = new TimeSpan(0, 17, 0, 0, 0),
                             StartTime = new TimeSpan(0, 9, 0, 0, 0),
                             StylistId = 2
@@ -416,7 +435,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 15,
-                            DayOfWeek = 2,
+                            DayOfWeek = 3,
                             EndTime = new TimeSpan(0, 18, 0, 0, 0),
                             StartTime = new TimeSpan(0, 10, 0, 0, 0),
                             StylistId = 3
@@ -424,7 +443,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 16,
-                            DayOfWeek = 2,
+                            DayOfWeek = 4,
                             EndTime = new TimeSpan(0, 18, 0, 0, 0),
                             StartTime = new TimeSpan(0, 10, 0, 0, 0),
                             StylistId = 3
@@ -432,7 +451,7 @@ namespace hairSalonScheduler.Migrations
                         new
                         {
                             Id = 17,
-                            DayOfWeek = 2,
+                            DayOfWeek = 5,
                             EndTime = new TimeSpan(0, 18, 0, 0, 0),
                             StartTime = new TimeSpan(0, 10, 0, 0, 0),
                             StylistId = 3

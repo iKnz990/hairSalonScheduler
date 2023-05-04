@@ -1,71 +1,377 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿/* Base font settings */
+/* Base font settings */
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #F0F0F0;
+    background-color: #000;
+    padding: 1rem;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+/* Deep dark color palette */
+:root {
+    --primary: #009688; /* Emerald green */
+    --secondary: #00796B; /* Teal */
+    --danger: #800020; /* Dark burgundy */
+    --warning: #FFA500; /* Orange */
+    --nav-text: #006400; /* Dark green */
+    --accent: #43A047;
+    --dark: #121212;
+    --light: #424242;
+    --white: #FFF;
+    /*Button Color*/
+    --btn-primary: #006400; /*--primary color */
+    --btn-danger: #800020; /*--danger color */
+    --btn-warning: #FFA500; /*--warning color */
+    /*Table Color*/
+    --table-header-bg: #424242; /*--light color */
+    --table-row-bg: #2E2E2E; /*--light color (alt)*/
+    /*Input Color*/
+    --input-readonly-bg: #424242; /*--light color */
+    --input-default-bg: #424242;
+    --select-default-bg: #424242; 
+    --textarea-default-bg: #424242; 
+}
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--primary);
+    margin: 1rem 0; /* Updated margin */
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+/* Paragraphs */
+p {
+    margin-bottom: 1.5rem;
+    color: var(--light);
+}
+
+/*Header Opacity*/
+.bg-light {
+    --bs-bg-opacity: .8;
+
+}
+/* Header */
+header {
+    background-color: var(--light); /* Change navbar background color */
+    padding: 1.5rem 0;
+}
+
+    header .navbar-brand {
+        color: var(--dark); /* Change navbar-brand base color to dark */
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+    header .navbar-brand:hover {
+            color: var(--primary); /* Change navbar-brand hover color to emerald green */
+    }
+
+
+    header .navbar-nav .nav-item .nav-link {
+        color: var(--nav-text);
+        font-weight: 400;
+    }
+
+        header .navbar-nav .nav-item .nav-link:hover {
+            color: var(--accent);
+        }
+
+/* Main content */
+.container {
+    padding: 3rem 0; /* Updated padding */
+}
+/* Table styles */
+    .table {
+        --bs-table-color: var(--bs-body-color);
+        --bs-table-bg: transparent;
+        --bs-table-border-color: var(--bs-border-color);
+        --bs-table-accent-bg: transparent;
+        --bs-table-striped-color: var(--bs-body-color);
+        --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+        --bs-table-active-color: var(--bs-body-color);
+        --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+        --bs-table-hover-color: var(--bs-body-color);
+        --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+        width: 100%;
+        margin-bottom: 1rem;
+        color: var(--primary); /* Updated color for better contrast */
+        vertical-align: top;
+        border-color: var(--bs-table-border-color);
+    }
+
+        .table th, .table td {
+            padding: 0.75rem;
+            border: 1px solid var(--primary); /* Use the same border color as form-control */
+        }
+
+        .table th {
+            background-color: var(--table-header-bg);
+            color: var(--primary); /* Change the text color to match the primary button text */
+            font-weight: 600;
+        }
+        .table td {
+            padding: 0.5rem;
+            border: 1px solid var(--primary); /* Use the same border color as the primary button */
+            color: var(--primary); /* Change the text color to match the primary button text */
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: var(--table-row-bg);
+            color: var(--primary); /* Change the text color to match the primary button text */
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: var(--light);
+            color: var(--secondary); /* Change the text color to match the primary button text */
+        }
+/* Scheduler styles -- Not implemented yet */
+    .scheduler {
+        background-color: var(--light);
+        border-radius: 0.25rem;
+        padding: 1rem;
+    }
+
+    .scheduler .appointment {
+        background-color: var(--dark);
+        border: 1px solid var(--primary);
+        border-radius: 0.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+        .scheduler .appointment .time {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .scheduler .appointment .customer {
+            font-weight: 400;
+            color: var(--white);
+        }
+
+        .scheduler .appointment .services {
+            font-weight: 400;
+            color: var(--danger);
+        }
+
+/* Buttons */
+.btn {
+    font-weight: 600 !important;
+    border-radius: 0.25rem !important;
+    margin: 0.5rem 0;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    background-color: var(--dark) !important;
+    color: var(--btn-primary) !important; /* Add contrasting text color */
+    border: 1px solid var(--btn-primary) !important;
+}
+    .btn-primary:hover {
+        background-color: var(--btn-primary) !important;
+        color: var(--dark) !important; /* Update the text color to dark for better contrast */
+        border-color: var(--btn-primary) !important;
+    }
+.btn-secondary {
+    background-color: var(--dark) !important; /* Updated to match table header */
+    border-color: var(--primary) !important; /* Updated to match table border */
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    .btn-secondary:hover {
+        background-color: var(--nav-text) !important;
+        border-color: var(--nav-text) !important;
+    }
+.btn-danger {
+    background-color: var(--dark) !important;
+    color: var(--btn-danger) !important;
+    border: 1px solid var(--btn-danger) !important;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    .btn-danger:hover {
+        background-color: var(--btn-danger) !important;
+        color: var(--dark) !important;
+        border-color: var(--btn-danger) !important;
+    }
+
+.btn-warning {
+    background-color: var(--dark) !important;
+    color: var(--btn-warning) !important;
+    border: 1px solid var(--btn-warning) !important;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    .btn-warning:hover {
+        background-color: var(--btn-warning) !important;
+        color: var(--dark) !important;
+        border-color: var(--btn-warning) !important;
+    }
+/* Form controls */
+.form-control {
+    background-color: var(--dark);
+    color: var(--light);
+    border: 1px solid var(--primary);
+    margin-bottom: 1rem;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem var(--primary);
+    }
+
+/* Pop-up calendar */
+.datepicker {
+    background-color: var(--dark);
+    color: var(--white);
+    border: 1px solidvar(--primary);
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    .datepicker th, .datepicker td {
+        color: var(--light);
+        border: 1px solid var(--dark);
+    }
+
+    .datepicker .today {
+        background-color: var(--primary);
+    }
+
+    .datepicker .day:hover {
+        background-color: var(--secondary);
+    }
+
+    .datepicker .active {
+        background-color: var(--accent);
+    }
+/*Input Boxes*/
+    input[readonly] {
+        color: var(--primary); /* Change the text color to match the primary button text */
+        border-color: var(--primary); /* Use the same border color as the primary button */
+        opacity: .6; /* Remove the default opacity for readonly inputs */
+    }
+    input:not([readonly]) {
+        background-color: var(--input-default-bg);
+        color: var(--primary); /* Change the text color to match the primary button text */
+        border-color: var(--primary); /* Use the same border color as the primary button */
+    }
+    select:not([readonly]) {
+        background-color: var(--select-default-bg);
+        color: var(--primary); /* Change the text color to match the primary button text */
+        border-color: var(--primary); /* Use the same border color as the primary button */
+    }
+
+    textarea:not([readonly]) {
+        background-color: var(--textarea-default-bg);
+        color: var(--primary); /* Change the text color to match the primary button text */
+        border-color: var(--primary); /* Use the same border color as the primary button */
+    }
+
+/*Custom file for uploading a profile image*/
+    .custom-file-input {
+        color: var(--primary); /* Change the text color to match the primary button text */
+        border-color: var(--primary); /* Use the same border color as the primary button */
+    }
+
+    .custom-file-label {
+        background-color: var(--input-default-bg);
+        color: var(--primary); /* Change the text color to match the primary button text */
+        border-color: var(--primary); /* Use the same border color as the primary button */
+    }
+
+/* Card components */
+.card {
+    background-color: var(--dark);
+    border-color: var(--primary);
+    margin-bottom: 1rem;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+.card-img-top {
+    border-bottom: 1px solid var(--primary);
 }
+
+.card-title {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.card-text {
+    color: var(--light);
+}
+
+/* Price input styles */
+.price-input {
+    background-color: transparent !important;
+    color: var(--primary);
+    border-color: var(--primary);
+    border-radius: 0 !important;
+    margin: .5em;
+}
+
+    /* Hide original input controls */
+    .price-input::-webkit-inner-spin-button,
+    .price-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+.price-input {
+    -moz-appearance: textfield;
+}
+
+/* Price input styles */
+.price-input {
+    background-color: transparent !important;
+    color: var(--primary);
+    border-color: var(--primary);
+    border-radius: 0 !important;
+}
+
+/* Price spinner buttons */
+.price-spinner-btn {
+    border-radius: 0 !important;
+    background-color: var(--dark) !important;
+    border: 1px solid var(--primary) !important;
+    color: var(--primary) !important;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+    .price-spinner-btn i {
+        vertical-align: middle;
+    }
+    .price-spinner-btn:hover {
+        background-color: var(--btn-primary) !important;
+        color: var(--dark) !important;
+    }
+
+
+    
+/* Footer */
+footer {
+    background-color: var(--dark);
+    padding: 2rem 0;
+}
+
+    footer .text {
+        color: var(--white);
+        font-weight: 400;
+        text-align: center;
+    }

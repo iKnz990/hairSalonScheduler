@@ -1,0 +1,27 @@
+﻿@model hairSalonScheduler.Models.Service
+@{
+    ViewData["Title"] = "Edit Service";
+}
+
+<h1>Edit Service</h1>
+
+<form asp-action="EditService" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Category">Category</label>
+        <input asp-for="Category" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Stylist.Name">Stylist</label>
+        <input asp-for="Stylist.Name" class="form-control" readonly />
+        <input type="hidden" asp-for="StylistId" />
+
+    </div>
+    <div class="form-group">
+        <label asp-for="Price">Price</label>
+        <input asp-for="Price" class="form-control" type="text" step="0.01" min="0" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="GetService" class="btn btn-secondary">Cancel</a>
+</form>

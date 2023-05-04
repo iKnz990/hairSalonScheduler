@@ -37,6 +37,14 @@ public class SalonDbContext : DbContext
             .HasForeignKey(a => a.StylistId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<Service>()
+            .HasOne(s => s.Stylist)
+            .WithMany(st => st.Services)
+            .HasForeignKey(s => s.StylistId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+
         modelBuilder.Entity<Stylist>().HasData(
             new Stylist { Id = 1, 
                 Name = "John Doe", 
@@ -171,24 +179,24 @@ public class SalonDbContext : DbContext
 
         new StylistAvailability { Id = 1, StylistId = 1, DayOfWeek = DayOfWeek.Monday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
         new StylistAvailability { Id = 2, StylistId = 1, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
-        new StylistAvailability { Id = 3, StylistId = 1, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
-        new StylistAvailability { Id = 4, StylistId = 1, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
-        new StylistAvailability { Id = 5, StylistId = 1, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
-        new StylistAvailability { Id = 6, StylistId = 1, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
+        new StylistAvailability { Id = 3, StylistId = 1, DayOfWeek = DayOfWeek.Wednesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
+        new StylistAvailability { Id = 4, StylistId = 1, DayOfWeek = DayOfWeek.Thursday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
+        new StylistAvailability { Id = 5, StylistId = 1, DayOfWeek = DayOfWeek.Friday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
+        new StylistAvailability { Id = 6, StylistId = 1, DayOfWeek = DayOfWeek.Saturday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
 
         new StylistAvailability { Id = 7, StylistId = 2, DayOfWeek = DayOfWeek.Monday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
         new StylistAvailability { Id = 8, StylistId = 2, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
-        new StylistAvailability { Id = 9, StylistId = 2, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
-        new StylistAvailability { Id = 10, StylistId = 2, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
-        new StylistAvailability { Id = 11, StylistId = 2, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
-        new StylistAvailability { Id = 12, StylistId = 2, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
+        new StylistAvailability { Id = 9, StylistId = 2, DayOfWeek = DayOfWeek.Wednesday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
+        new StylistAvailability { Id = 10, StylistId = 2, DayOfWeek = DayOfWeek.Thursday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
+        new StylistAvailability { Id = 11, StylistId = 2, DayOfWeek = DayOfWeek.Friday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
+        new StylistAvailability { Id = 12, StylistId = 2, DayOfWeek = DayOfWeek.Saturday, StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0) },
 
 
         new StylistAvailability { Id = 13, StylistId = 3, DayOfWeek = DayOfWeek.Monday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
         new StylistAvailability { Id = 14, StylistId = 3, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
-        new StylistAvailability { Id = 15, StylistId = 3, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
-        new StylistAvailability { Id = 16, StylistId = 3, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
-        new StylistAvailability { Id = 17, StylistId = 3, DayOfWeek = DayOfWeek.Tuesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) }
+        new StylistAvailability { Id = 15, StylistId = 3, DayOfWeek = DayOfWeek.Wednesday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
+        new StylistAvailability { Id = 16, StylistId = 3, DayOfWeek = DayOfWeek.Thursday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) },
+        new StylistAvailability { Id = 17, StylistId = 3, DayOfWeek = DayOfWeek.Friday, StartTime = new TimeSpan(10, 0, 0), EndTime = new TimeSpan(18, 0, 0) }
         );
     }
 }

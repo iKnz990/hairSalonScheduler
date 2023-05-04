@@ -19,40 +19,47 @@
             <option value="Other">Other</option>
         </select>
     </div>
-    <div class="form-group">
+ <!-- To update the profile image, had issues getting to remove the previous string then upload the new image and string.
+     <div class="form-group">
         <label asp-for="ProfileImage">Profile Image</label>
         <input asp-for="ProfileImage" type="file" class="form-control" />
-    </div>
+       </div>
+ -->
     <div class="form-group">
         <label asp-for="Bio">Bio</label>
         <textarea asp-for="Bio" class="form-control"></textarea>
-    </div>
+    </div> 
     <!--Availabilities-->
     <div class="form-group">
-        <label>Availabilities</label>
-        @for (int i = 0; i <  Model.Availabilities.Count; i++)
-        {
-            <div class="form-row">
-                <div class="col">
-                    <label>@Model.Availabilities[i].DayOfWeek</label>
-                    <select asp-for="Availabilities[i].StartTime" class="form-control">
-                        @for (int j = 0; j < 24; j++)
-                        {
-                            <option value="@TimeSpan.FromHours(j)">@TimeSpan.FromHours(j).ToString("hh\\:mm")</option>
-                        }
-                    </select>
-                </div>
-                <div class="col">
-                    <label>to</label>
-                    <select asp-for="Availabilities[i].EndTime" class="form-control">
-                        @for (int j = 0; j < 24; j++)
-                        {
-                            <option value="@TimeSpan.FromHours(j)">@TimeSpan.FromHours(j).ToString("hh\\:mm")</option>
-                        }
-                    </select>
-                </div>
+        <label><strong>Availabilities</strong></label>
+        <div class="container">
+            <div class="row">
+                @for (int i = 0; i < Model.Availabilities.Count; i++)
+                {
+                    <div class="col-md-4 col-lg-3">
+                        <div class="form-row mt-3">
+                            <div class="col">
+                                <label class="d-block mb-1">@Model.Availabilities[i].DayOfWeek</label>
+                                <input type="hidden" asp-for="Availabilities[i].DayOfWeek" />
+                                <select asp-for="Availabilities[i].StartTime" class="form-control d-inline-block" style="width: auto;">
+                                    @for (int j = 0; j < 24; j++)
+                                    {
+                                        <option value="@TimeSpan.FromHours(j)">@TimeSpan.FromHours(j).ToString("hh\\:mm")</option>
+                                    }
+                                </select>
+                                <span class="mx-2">-</span>
+                                <select asp-for="Availabilities[i].EndTime" class="form-control d-inline-block" style="width: auto;">
+                                    @for (int j = 0; j < 24; j++)
+                                    {
+                                        <option value="@TimeSpan.FromHours(j)">@TimeSpan.FromHours(j).ToString("hh\\:mm")</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        }
+        </div>
     </div>
     <!-- Add a section for adding and removing services -->
     <div class="form-group">
@@ -60,12 +67,11 @@
         <select id="services-select" multiple class="form-control">
             @foreach (var service in Model.Services)
             {
-                <option value="@service.Id">@service.Category</option>
+                <option value="@service.Id">@service.Category - (@service.Price.ToString("C"))</option>
             }
         </select>
-        <button id="remove-service-btn" type="button" class="btn btn-danger mt-2">Remove Service</button>
+        <button id="remove-service-btn" type="button" class="btn btn-danger mt-2">Remove Service</button> <a class="btn btn-primary mt-2" asp-controller="Service" asp-action="Create">Create Service</a>
     </div>
-
     <div id="removed-services-container" style="display:none;">  </div>
 
     <button type="submit" class="btn btn-primary">Save</button>

@@ -47,29 +47,35 @@
 
     <div class="form-group">
         <label asp-for="Price">Price</label>
-        <div class="input-group">
-            <input asp-for="Price" class="form-control" type="text" id="price-spinner" />
+        <div class="input-group price-spinner">
+            <input asp-for="Price" class="form-control price-input" type="number" id="price-input" min="0" max="2000" step="5" />
+            <div class="input-group-append">
+                <button class="btn btn-primary price-spinner-btn" type="button" id="price-spinner-up">
+                    <i class="bi bi-chevron-up"></i>
+                </button>
+                <button class="btn btn-primary price-spinner-btn" type="button" id="price-spinner-down">
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+            </div>
         </div>
     </div>
-
-
 
     <button type="submit" class="btn btn-primary">Create Service</button>
 </form>
 
 @section scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css" />
 
     <script>
-        $(function () {
-            $("#price-spinner").spinner({
-                min: 0,
-                max: 2000,
-                step: 5,
-                numberFormat: "c"
-            });
+        document.getElementById("price-spinner-up").addEventListener("click", function () {
+            let input = document.getElementById("price-input");
+            let value = parseInt(input.value, 10) || 0;
+            input.value = Math.min(value + 5, 2000);
+        });
+
+        document.getElementById("price-spinner-down").addEventListener("click", function () {
+            let input = document.getElementById("price-input");
+            let value = parseInt(input.value, 10) || 0;
+            input.value = Math.max(value - 5, 0);
         });
     </script>
 

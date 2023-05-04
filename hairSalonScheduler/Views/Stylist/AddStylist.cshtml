@@ -7,10 +7,18 @@
 <h1>Add Stylist</h1>
 
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5w6p+q7Kd2r514xk7r2r7grUNl7z9gY4C0gy4Qbz"
-            crossorigin="anonymous"></script>
     <script>
+        $(document).ready(function () {
+            $("#ProfileImage").change(function () {
+                readURL(this);
+                updateFileName();
+            });
+
+            $('#Name').on('keyup', function () {
+                updateFileName();
+            });
+        });
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -18,6 +26,9 @@
                 reader.onload = function (e) {
                     $('#profileImagePreview').attr('src', e.target.result);
                     $('#profileImagePreview').css('display', 'block');
+                    // Hide the input element and its label after uploading an image
+                    $('#ProfileImage').css('display', 'none');
+                    $('#ProfileImage').next('.custom-file-label').css('display', 'none');
                 }
 
                 reader.readAsDataURL(input.files[0]);
@@ -29,7 +40,8 @@
             const fileInput = $('#ProfileImage');
             const file = fileInput[0].files[0];
 
-            if (!file) {
+            if (!file || !name) {
+                $('#fileNamePreview').text('');
                 return;
             }
 
@@ -37,17 +49,9 @@
             const newFileName = `${name}.${fileExtension}`;
 
             fileInput.next('.custom-file-label').html(newFileName);
+            $('#fileNamePreview').text(newFileName);
         }
 
-        $(document).ready(function () {
-            $("#ProfileImage").change(function () {
-                readURL(this);
-            });
-
-            $('#Name').on('keyup', function () {
-                updateFileName();
-            });
-        });
     </script>
 }
 
@@ -56,9 +60,10 @@
         <label asp-for="ProfileImage">Profile Image</label>
         <div class="custom-file">
             <input asp-for="ProfileImage" type="file" class="custom-file-input" id="ProfileImage" />
-            <label class="custom-file-label" for="ProfileImage">Choose file</label>
+            <label class="custom-file-label" for="ProfileImage"></label>
         </div>
         <img id="profileImagePreview" src="#" alt="Profile Image Preview" style="display: none; max-width: 200px; max-height: 200px; margin-top: 10px;">
+        <span id="fileNamePreview"></span>
     </div>
     <div class="form-group">
         <label asp-for="Name">Name</label>

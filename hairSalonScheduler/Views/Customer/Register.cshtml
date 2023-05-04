@@ -2,61 +2,57 @@
 @{
     ViewData["Title"] = "Customer Registration";
 }
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-</head>
-<h2>@ViewData["Title"]</h2>
 
-<form asp-action="Register">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DateOfBirth"></label>
-        <div class="input-group date" id="datepicker">
-            <input asp-for="DateOfBirth" class="form-control" type="date" />
-            <span class="input-group-addon">
-                <i class="glyphicon glyphicon-th"></i>
-            </span>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <h2 class="text-center">@ViewData["Title"]</h2>
+
+            <form asp-action="Register" method="post">
+                <div class="form-group">
+                    <label asp-for="Name">Name<span class="text-danger">*</span></label>
+                    <input asp-for="Name" class="form-control" required>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">Email<span class="text-danger">*</span></label>
+                    <input asp-for="Email" type="email" class="form-control" required>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Password<span class="text-danger">*</span></label>
+                    <input asp-for="Password" type="password" class="form-control" minlength="6" required>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DateOfBirth">Date of Birth<span class="text-danger">*</span></label>
+                    <input asp-for="DateOfBirth" type="date" class="form-control" required>
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Gender">Gender<span class="text-danger">*</span></label>
+                    <select asp-for="Gender" class="form-control" required>
+                        <option value="">-- Select Gender --</option>
+                        @foreach (var item in Enum.GetValues(typeof(Models.Enum.Gender)))
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Address">Address<span class="text-danger">*</span></label>
+                    <input asp-for="Address" class="form-control" rows="3" required></input>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
         </div>
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Gender"></label>
-        <select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<Models.Enum.Gender>()">
-            <option value="">-- Select Gender --</option>
-        </select>
-        <span asp-validation-for="Gender" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Address"></label>
-        <input asp-for="Address" class="form-control" />
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
-
-@section Scripts {
-    <script>
-        $(function () {
-            $('#datepicker').datepicker({
-                autoclose: true,
-                todayHighlight: true,
-                format: 'mm/dd/yyyy'
-            });
-        });
-    </script>
-}
+</div>

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class StylistController : Controller
 {
@@ -95,8 +96,14 @@ public class StylistController : Controller
         }
 
         // Add available services to the ViewBag
-        ViewBag.Services = _context.Services.ToList();
-        ViewData["Services"] = JsonSerializer.Serialize(_context.Services.ToList(), new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve });
+        var serviceList = _context.Services.Select(s => new SelectListItem
+        {
+            Value = $"{s.Id}",
+            Text = $"{s.Category} - Price: {s.Price.ToString("C")}"
+        }).ToList();
+
+        ViewBag.Services = new SelectList(serviceList, "Value", "Text");
+        ViewData["Services"] = JsonSerializer.Serialize(serviceList, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve });
 
         return View(stylist);
     }

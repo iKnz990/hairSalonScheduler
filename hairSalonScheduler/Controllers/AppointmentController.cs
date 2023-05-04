@@ -92,14 +92,17 @@ namespace hairSalonScheduler.Controllers
                 return NotFound();
             }
 
-            var services = _dbContext.Services.Where(s => s.StylistId == appointment.StylistId).ToList();
+            var serviceList = _dbContext.Services.Include(s => s.Stylist).Select(s => new SelectListItem
+            {
+                Value = $"{s.Id},{s.StylistId}",
+                Text = $"{s.Category} by: {s.Stylist.Name} -- {s.Price.ToString("C")}"
+            }).ToList();
 
-            ViewBag.Services = new SelectList(services, "Id", "Category", appointment.ServiceId);
+            ViewBag.Services = new SelectList(serviceList, "Value", "Text", $"{appointment.ServiceId},{appointment.StylistId}");
             ViewBag.Customers = new SelectList(_dbContext.Customers, "Id", "Name", appointment.CustomerId);
             ViewBag.Stylists = new SelectList(_dbContext.Stylists, "Id", "Name", appointment.StylistId);
 
             return View(appointment);
-
         }
 
         [HttpPost]
