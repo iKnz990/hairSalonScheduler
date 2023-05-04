@@ -1,179 +1,178 @@
-﻿using System.Linq;
-using System.Text.Json.Serialization;
-using System.Text.Json;
+﻿
+using hairSalonScheduler.Enums;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using hairSalonScheduler.Models;
-using hairSalonScheduler.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace hairSalonScheduler.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AppointmentController : Controller
     {
-        private readonly IAppointmentService _appointmentService;
-        private readonly IStylistService _stylistService;
-        private readonly ICustomerService _customerService;
-        private readonly SalonDbContext _dbContext;
+        private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IEmployeeScheduleRepository _employeeScheduleRepository;
 
-        public AppointmentController(IStylistService stylistService, ICustomerService customerService, IAppointmentService appointmentService, SalonDbContext dbContext)
-        {
-            _appointmentService = appointmentService;
-            _stylistService = stylistService;
-            _customerService = customerService;
-            _dbContext = dbContext;
-        }
-
-        //Read the Appointments
-        [HttpGet]
-        public IActionResult GetAppointment()
-        {
-            var appointments = _dbContext.Appointments.Include(a => a.Customers).Include(a => a.Stylists).Include(a => a.Services).ToList();
-            return View(appointments);
-        }
-
-        //Create the Appointment
-        public IActionResult CreateAppointment()
-        {
-            ViewBag.Customers = new SelectList(_dbContext.Customers, "Id", "Name");
-            ViewBag.Stylists = new SelectList(_dbContext.Stylists, "Id", "Name");
-            ViewBag.ServicesWithPricesAndStylists = _dbContext.Services.Include(s => s.Stylist).ToList();
-
-            var serviceList = _dbContext.Services.Include(s => s.Stylist).Select(s => new SelectListItem
+            public AppointmentController(IAppointmentRepository appointmentRepository, IEmployeeScheduleRepository employeeScheduleRepository)
             {
-                Value = $"{s.Id},{s.StylistId}",
-                Text = $"{s.Category} by: {s.Stylist.Name} -- {s.Price.ToString("C")}"
-            }).ToList();
-
-            ViewBag.Services = new SelectList(serviceList, "Value", "Text");
-
-            return View();
-        }
-
-
-        [HttpPost]
-        public IActionResult CreateAppointment(Appointment appointment)
-        {
-            var customer = _customerService.GetCustomer(appointment.CustomerId);
-            var stylist = _stylistService.GetStylistsByService(appointment.ServiceId)
-                .FirstOrDefault(s => s.Id == appointment.StylistId);
-
-            if (customer == null || stylist == null)
-            {
-                return BadRequest("Invalid customer or stylist.");
+                _appointmentRepository = appointmentRepository;
+                _employeeScheduleRepository = employeeScheduleRepository;
             }
 
-            appointment.Customers = customer;
-
-            _dbContext.Appointments.Add(appointment);
-            _dbContext.SaveChanges();
-
-            return RedirectToAction("GetAppointment");
+            // GET: api/Appointment
+            [HttpGet]
+             public async Task<ActionResult<IEnumerable<TheAppointment>>> GetAppointments()
+        {
+            var appointments = await _appointmentRepository.GetAllAppointmentsAsync();
+            return Ok(appointments);
         }
 
-        //Edit the Appointments
-        [HttpGet]
-        public async Task<IActionResult> EditAppointment(int id)
-        {
-            if (id == null)
+            // GET: api/Appointment/5
+            [HttpGet("{id}")]
+            public async Task<ActionResult<TheAppointment>> GetAppointment(int id)
             {
-                return NotFound();
-            }
+                var appointment = await _appointmentRepository.GetAppointmentByIdAsync(id);
 
-            var appointment = await _dbContext.Appointments
-                    .Include(a => a.Customers)
-                    .Include(a => a.Services)
-                    .Include(a => a.Stylists)
-                    .FirstOrDefaultAsync(a => a.Id == id);
-
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-
-            var services = _dbContext.Services.Where(s => s.StylistId == appointment.StylistId).ToList();
-
-            ViewBag.Services = new SelectList(services, "Id", "Category", appointment.ServiceId);
-            ViewBag.Customers = new SelectList(_dbContext.Customers, "Id", "Name", appointment.CustomerId);
-            ViewBag.Stylists = new SelectList(_dbContext.Stylists, "Id", "Name", appointment.StylistId);
-
-            return View(appointment);
-
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int id, [Bind("Id,SelectedDateTime,Status,PaymentStatus,CustomerId,StylistId,ServiceId")] Appointment updatedAppointment)
-        {
-
-            if (ModelState.IsValid)
-            {
-                Appointment appointment = await _dbContext.Appointments.FindAsync(id);
-
-                if (updatedAppointment == null)
+                if (appointment == null)
                 {
-                    return NotFound();
+                    return NotFound("Appointment not found");
                 }
 
-                appointment.SelectedDateTime = updatedAppointment.SelectedDateTime;
-                appointment.Status = updatedAppointment.Status;
-                appointment.PaymentStatus = updatedAppointment.PaymentStatus;
-                appointment.StylistId = updatedAppointment.StylistId;
-                appointment.ServiceId = updatedAppointment.ServiceId;
+                return Ok(appointment);
+            }
+
+            // PUT: api/Appointment/5
+            [HttpPut("{id}")]
+            public async Task<IActionResult> UpdateAppointment(int id, TheAppointment appointment)
+            {
+                if (id != appointment.Id)
+                {
+                    return BadRequest("Appointment ID mismatch");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
                 try
                 {
-                    _dbContext.Update(appointment);
-                    await _dbContext.SaveChangesAsync();
+                    await _appointmentRepository.UpdateAppointmentAsync(appointment);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!AppointmentExists(appointment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    // Handle specific exceptions as needed
+                    return StatusCode(500, $"An error occurred while updating the appointment: {ex.Message}");
                 }
-                return RedirectToAction("GetAppointment");
+
+                return NoContent();
             }
 
-            var services = _dbContext.Services.Where(s => s.StylistId == updatedAppointment.StylistId).ToList();
-
-            ViewData["Services"] = new SelectList(services, "Id", "Category", updatedAppointment.ServiceId);
-            ViewData["Customers"] = new SelectList(_dbContext.Customers.ToList(), "Id", "Name", updatedAppointment.CustomerId);
-            ViewData["Stylists"] = new SelectList(_dbContext.Stylists.ToList(), "Id", "Name", updatedAppointment.StylistId);
-
-            return View(updatedAppointment);
-        }
-
-        private bool AppointmentExists(int id)
-        {
-            return _dbContext.Appointments.Any(a => a.Id == id);
-        }
-        [HttpGet]
-        public IActionResult GetServicesByStylistId(int stylistId)
-        {
-            var services = _dbContext.Services.Where(s => s.StylistId == stylistId).ToList();
-
-            return Json(services);
-        }
-        //Delete the Appointments
-        public IActionResult DeleteAppointment(int id)
-        {
-            Appointment appointment = _dbContext.Appointments.FirstOrDefault(a => a.Id == id);
-            if (appointment != null)
+            // POST: api/Appointment
+            [HttpPost]
+            public async Task<ActionResult<TheAppointment>> CreateAppointment(TheAppointment appointment)
             {
-                _dbContext.Appointments.Remove(appointment);
-                _dbContext.SaveChanges();
-                return RedirectToAction("GetAppointment");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                try
+                {
+                    await _appointmentRepository.CreateAppointmentAsync(appointment);
+                }
+                catch (Exception ex)
+                {
+                    // Handle specific exceptions as needed
+                    return StatusCode(500, $"An error occurred while creating the appointment: {ex.Message}");
+                }
+
+                return CreatedAtAction("GetAppointment", new { id = appointment.Id }, appointment);
             }
 
-            return NotFound();
-        }
+            // DELETE: api/Appointment/5
+            [HttpDelete("{id}")]
+            public async Task<IActionResult> DeleteAppointment(int id)
+            {
+                try
+                {
+                    await _appointmentRepository.DeleteAppointmentAsync(id);
+                }
+                catch (Exception ex)
+                {
+                    // Handle specific exceptions as needed
+                    return StatusCode(500, $"An error occurred while deleting the appointment: {ex.Message}");
+                }
 
+                return NoContent();
+            }
+
+            // GET: api/Appointment/IsStylistAvailable/5
+            [HttpGet("IsStylistAvailable/{id}")]
+            public async Task<ActionResult<bool>> IsStylistAvailable(int id, DateTime appointmentDate, TimeSpan duration)
+            {
+                var appointments = await _appointmentRepository.GetAppointmentsByEmployeeIdAsync(id);
+                var employeeSchedule = await _employeeScheduleRepository.GetEmployeeScheduleByEmployeeIdAsync(id);
+
+                if (employeeSchedule == null)
+                {
+                    return NotFound("Employee schedule not found");
+                }
+
+                var appointmentStartTime = appointmentDate;
+                var appointmentEndTime = appointmentDate.Add(duration);
+
+                if (appointmentStartTime < employeeSchedule.StartDateTime || appointmentEndTime > employeeSchedule.EndDateTime)
+                {
+                    return Ok(false);
+                }
+
+                if (!employeeSchedule.IsAvailable)
+                {
+                    return Ok(false);
+                }
+
+                var isStylistAvailable = !appointments.Any(a =>
+                    a.AppointmentDate <= appointmentEndTime &&
+                    a.AppointmentDate.Add(a.Service.Duration) >= appointmentStartTime);
+
+                return Ok(isStylistAvailable);
+            }
+
+            // GET: api/Appointment/ByEmployeeId/5
+            [HttpGet("ByEmployeeId/{id}")]
+            public async Task<ActionResult<IEnumerable<TheAppointment>>> GetAppointmentsByEmployeeId(int id)
+            {
+                var appointments = await _appointmentRepository.GetAppointmentsByEmployeeIdAsync(id);
+                return Ok(appointments);
+            }
+
+            // GET: api/Appointment/ByServiceId/5
+            [HttpGet("ByServiceId/{id}")]
+            public async Task<ActionResult<IEnumerable<TheAppointment>>> GetAppointmentsByServiceId(int id)
+            {
+                var appointments = await _appointmentRepository.GetAppointmentsByServiceIdAsync(id);
+                return Ok(appointments);
+            }
+
+            // GET: api/Appointment/ByStatus/5
+            [HttpGet("ByStatus/{status}")]
+            public async Task<ActionResult<IEnumerable<TheAppointment>>> GetAppointmentsByStatus(AppointmentStatus status)
+            {
+                var appointments = await _appointmentRepository.GetAppointmentsByStatusAsync(status);
+                return Ok(appointments);
+            }
+
+            // GET: api/Appointment/ByUserId/5
+            [HttpGet("ByUserId/{id}")]
+            public async Task<ActionResult<IEnumerable<TheAppointment>>> GetAppointmentsByUserId(int id)
+            {
+                var appointments = await _appointmentRepository.GetAppointmentsByUserIdAsync(id);
+                return Ok(appointments);
+            }
     }
 }
+    

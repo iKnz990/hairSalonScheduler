@@ -1,24 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System;
+using hairSalonScheduler.Models;
+
 
 namespace hairSalonScheduler.Models
 {
     public class Service
     {
-        public int Id { get; set; }
-        public string Category { get; set; }
-        public string Availability { get; set; }
-        public decimal Price { get; set; }
+        [Key]
+        public int ServiceId { get; set; }
 
+        [Required]
+        public string ServiceName { get; set; }
 
-        public string DisplayName
-        {
-            get
-            {
-                return $"{Category} - {Price:C}";
-            }
-        }
+        [Required]
+        public TimeSpan Duration { get; set; }
 
-        public int StylistId { get; set; }
-        public virtual Stylist Stylist { get; set; }
+        [Required]
+        [DataType(DataType.Currency)]
+        public decimal BasePrice { get; set; }
+
+        // Navigation properties
+        public ICollection<EmployeeService> EmployeeServices { get; set; }
+        public ICollection<TheAppointment> Appointments { get; set; }
     }
 }

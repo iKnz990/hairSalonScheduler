@@ -1,56 +1,75 @@
-﻿using hairSalonScheduler.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using hairSalonScheduler.Models;
 
-public class ServiceController : Controller
+[Route("api/[controller]")]
+[ApiController]
+public class ServiceController : ControllerBase
 {
-    private readonly SalonDbContext _context;
+    private readonly IServiceRepository _serviceRepository;
 
-    public ServiceController(SalonDbContext context)
+    public ServiceController(IServiceRepository serviceRepository)
     {
-        _context = context;
+        _serviceRepository = serviceRepository;
     }
 
-
-    // GET: Services/Create
-    public ActionResult Create()
+    // GET: api/Service
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Service>>> GetServices()
     {
-        var stylists = _context.Stylists.Select(s => new SelectListItem
-        {
-            Value = s.Id.ToString(),
-            Text = s.Name
-        }).ToList();
-
-        ViewBag.StylistList = stylists; // Change this line
-
-        var viewModel = new CreateServiceViewModel();
-        return View("AddService", viewModel);
+        return Ok(await _serviceRepository.GetAllServicesAsync());
     }
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create(CreateServiceViewModel viewModel)
-    {
-        if (ModelState.IsValid)
-        {
-            foreach (var stylistId in viewModel.StylistIds)
-            {
-                var service = new Service
-                {
-                    Category = viewModel.Category,
-                    Availability = viewModel.Availability,
-                    Price = viewModel.Price,
-                    StylistId = stylistId
-                };
 
-                _context.Services.Add(service);
-            }
-            _context.SaveChanges();
-            return RedirectToAction("GetStylist", "Stylist");
+    // GET: api/Service/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Service>> GetService(int id)
+    {
+        var service = await _serviceRepository.GetServiceByIdAsync(id);
+
+        if (service == null)
+        {
+            return NotFound();
         }
 
-        return View("AddService", viewModel);
+        return Ok(service);
+    }
+
+    // POST: api/Service
+    [HttpPost]
+    public async Task<ActionResult<Service>> CreateService(Service service)
+    {
+        await _serviceRepository.CreateServiceAsync(service);
+
+        return CreatedAtAction(nameof(GetService), new { id = service.ServiceId }, service);
+    }
+
+    // PUT: api/Service/5
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateService(int id, Service service)
+    {
+        if (id != service.ServiceId)
+        {
+            return BadRequest();
+        }
+
+        await _serviceRepository.UpdateServiceAsync(service);
+
+        return NoContent();
+    }
+
+    // DELETE: api/Service/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteService(int id)
+    {
+        var service = await _serviceRepository.GetServiceByIdAsync(id);
+        if (service == null)
+        {
+            return NotFound();
+        }
+
+        await _serviceRepository.DeleteServiceAsync(id);
+
+        return NoContent();
     }
 }

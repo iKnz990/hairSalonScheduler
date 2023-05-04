@@ -1,0 +1,29 @@
+﻿@model IEnumerable<hairSalonScheduler.Models.AppUser>
+
+<h1>Users</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Email</td>
+                <td>
+                    <a href="@Url.Action("Details", "User", new { id = user.Id })">Details</a> |
+                    <a href="@Url.Action("Edit", "User", new { id = user.Id })">Edit</a> |
+                    <a href="@Url.Action("Delete", "User", new { id = user.Id })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "User")">Add New User</a>

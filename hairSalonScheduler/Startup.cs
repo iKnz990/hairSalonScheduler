@@ -5,9 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using Microsoft.EntityFrameworkCore;
-using hairSalonScheduler.Services;
-using hairSalonScheduler.Models;
-
 namespace hairSalonScheduler
 {
     public class Startup
@@ -26,9 +23,7 @@ namespace hairSalonScheduler
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
                     new MySqlServerVersion(new Version(8, 0, 30))));
             //dependency inject interfaces
-            services.AddScoped<IStylistService, StylistService>();
-            services.AddScoped<ICustomerService, CustomerService>();
-            services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped< HairSalonRepository>();
 
         }
 
