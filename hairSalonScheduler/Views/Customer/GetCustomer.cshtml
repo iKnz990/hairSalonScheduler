@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "GetCustomer";
 }
-
+<!--This boy is complicated.-->
 @if (!String.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
 {
     <div class="alert alert-danger">
@@ -37,6 +37,7 @@
                     <td>@customer.Gender</td>
                     <td>@customer.Address</td>
                     <td>@customer.LoyaltyPoints</td>
+                    <!--Creates a table to show the listed appointments, with buttons to go directly to editing.-->
                     <td>
                         @if (customer.Appointments != null && customer.Appointments.Count() > 0)
                         {

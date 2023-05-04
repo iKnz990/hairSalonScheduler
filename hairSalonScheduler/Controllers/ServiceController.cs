@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 public class ServiceController : Controller
 {
-    private readonly SalonDbContext _context;
+    private readonly SalonDbContext _dbContext;
 
     public ServiceController(SalonDbContext context)
     {
-        _context = context;
+        _dbContext = context;
     }
 
 
     // GET: Services/Create
     public ActionResult Create()
     {
-        var stylists = _context.Stylists.Select(s => new SelectListItem
+        var stylists = _dbContext.Stylists.Select(s => new SelectListItem
         {
             Value = s.Id.ToString(),
             Text = s.Name
@@ -45,9 +45,9 @@ public class ServiceController : Controller
                     StylistId = stylistId
                 };
 
-                _context.Services.Add(service);
+                _dbContext.Services.Add(service);
             }
-            _context.SaveChanges();
+            _dbContext.SaveChanges();
             return RedirectToAction("GetService", "Service");
         }
 
@@ -56,14 +56,14 @@ public class ServiceController : Controller
 
     public IActionResult GetService()
     {
-        var services = _context.Services.Include(s => s.Stylist).ToList();
+        var services = _dbContext.Services.Include(s => s.Stylist).ToList();
         return View("GetService", services);
     }
 
     [HttpGet]
     public IActionResult EditService(int id)
     {
-        var service = _context.Services.Include(s => s.Stylist).FirstOrDefault(s => s.Id == id);
+        var service = _dbContext.Services.Include(s => s.Stylist).FirstOrDefault(s => s.Id == id);
         if (service == null)
         {
             return NotFound();
@@ -80,12 +80,12 @@ public class ServiceController : Controller
         {
             try
             {
-                _context.Update(service);
-                _context.SaveChanges();
+                _dbContext.Update(service);
+                _dbContext.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Services.Any(e => e.Id == service.Id))
+                if (!_dbContext.Services.Any(e => e.Id == service.Id))
                 {
                     return NotFound();
                 }

@@ -8,11 +8,13 @@
 
 <form asp-action="Create" method="post">
     <div class="form-group">
+        <!--Populates the stylists to assign a service to-->
         <label asp-for="StylistIds">Stylist</label>
         <select asp-for="StylistIds" asp-items="ViewBag.StylistList" class="form-control" multiple id="stylist-select">
             <option value="">Select Stylist</option>
         </select>
     </div>
+    <!--Categories-->
     <div class="form-group">
         <label asp-for="Category">Category</label>
         <select asp-for="Category" class="form-control">
@@ -28,7 +30,7 @@
             <option value="Perm">Perm</option>
         </select>
     </div>
-
+    <!--Duration of Service; labeled availability in model for the future.-->
     <div class="form-group">
         <label asp-for="Availability">Duration of Service</label>
         <select asp-for="Availability" class="form-control" id="availability-select">
@@ -44,7 +46,7 @@
             <option value="9">9 hours</option>
         </select>
     </div>
-
+    <!--My really cool spinner-->
     <div class="form-group">
         <label asp-for="Price">Price</label>
         <div class="input-group price-spinner">
@@ -64,7 +66,7 @@
 </form>
 
 @section scripts {
-
+    <!--Press buttons.-->
     <script>
         document.getElementById("price-spinner-up").addEventListener("click", function () {
             let input = document.getElementById("price-input");

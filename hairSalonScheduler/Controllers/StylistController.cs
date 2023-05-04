@@ -14,12 +14,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class StylistController : Controller
 {
-    private readonly SalonDbContext _context;
+    private readonly SalonDbContext _dbContext;
     private readonly IWebHostEnvironment _hostingEnvironment;
 
     public StylistController(SalonDbContext context, IWebHostEnvironment hostingEnvironment)
     {
-        _context = context;
+        _dbContext = context;
         _hostingEnvironment = hostingEnvironment;
     }
 
@@ -73,8 +73,8 @@ public class StylistController : Controller
                 });
             }
 
-            _context.Add(stylist);
-            await _context.SaveChangesAsync();
+            _dbContext.Add(stylist);
+            await _dbContext.SaveChangesAsync();
 
             return RedirectToAction(nameof(GetStylist));
         }
@@ -85,7 +85,7 @@ public class StylistController : Controller
     [HttpGet]
     public IActionResult EditStylist(int id)
     {
-        Stylist stylist = _context.Stylists
+        Stylist stylist = _dbContext.Stylists
             .Include(s => s.Availabilities)
             .Include(s => s.Services)
             .FirstOrDefault(s => s.Id == id);
@@ -96,7 +96,7 @@ public class StylistController : Controller
         }
 
         // Add available services to the ViewBag
-        var serviceList = _context.Services.Select(s => new SelectListItem
+        var serviceList = _dbContext.Services.Select(s => new SelectListItem
         {
             Value = $"{s.Id}",
             Text = $"{s.Category} - Price: {s.Price.ToString("C")}"
@@ -110,7 +110,7 @@ public class StylistController : Controller
 
     public IActionResult GetStylist()
     {
-        List<Stylist> stylists = _context.Stylists
+        List<Stylist> stylists = _dbContext.Stylists
                                           .Include(s => s.Availabilities)
                                           .Include(s => s.Services)
                                           .ToList();
@@ -125,8 +125,8 @@ public class StylistController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Entry(updatedStylist).State = EntityState.Detached;
-            Stylist stylist = _context.Stylists.Include(s => s.Availabilities).FirstOrDefault(s => s.Id == id);
+            _dbContext.Entry(updatedStylist).State = EntityState.Detached;
+            Stylist stylist = _dbContext.Stylists.Include(s => s.Availabilities).FirstOrDefault(s => s.Id == id);
             if (stylist != null)
             {
                 if (newProfileImage != null)
@@ -173,15 +173,15 @@ public class StylistController : Controller
                         };
                         stylist.Availabilities.Add(availability);
                     }
-                    _context.Entry(availability).State = EntityState.Modified;
+                    _dbContext.Entry(availability).State = EntityState.Modified;
 
                 }
 
                 // Services
-                var currentServices = _context.Services.Where(s => s.StylistId == id).ToList();
+                var currentServices = _dbContext.Services.Where(s => s.StylistId == id).ToList();
                 foreach (var serviceId in Services)
                 {
-                    var service = _context.Services.Find(serviceId);
+                    var service = _dbContext.Services.Find(serviceId);
                     if (service != null)
                     {
                         service.StylistId = id;
@@ -193,16 +193,16 @@ public class StylistController : Controller
                 {
                     foreach (var removedServiceId in RemovedServices)
                     {
-                        var removedService = _context.Services.Find(removedServiceId);
+                        var removedService = _dbContext.Services.Find(removedServiceId);
                         if (removedService != null)
                         {
                             stylist.Services.Remove(removedService);
-                            _context.Services.Remove(removedService);
+                            _dbContext.Services.Remove(removedService);
                         }
                     }
                 }
-                _context.Update(stylist);
-                _context.SaveChanges();
+                _dbContext.Update(stylist);
+                _dbContext.SaveChanges();
                 return RedirectToAction("GetStylist");
             }
         }
@@ -212,11 +212,11 @@ public class StylistController : Controller
 
     public IActionResult DeleteStylist(int id)
     {
-        Stylist stylist = _context.Stylists.FirstOrDefault(s => s.Id == id);
+        Stylist stylist = _dbContext.Stylists.FirstOrDefault(s => s.Id == id);
         if (stylist != null)
         {
-            _context.Stylists.Remove(stylist);
-            _context.SaveChanges();
+            _dbContext.Stylists.Remove(stylist);
+            _dbContext.SaveChanges();
             return RedirectToAction("GetStylist");
         }
 

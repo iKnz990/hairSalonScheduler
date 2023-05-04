@@ -8,11 +8,11 @@ namespace hairSalonScheduler.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly SalonDbContext _context;
+        private readonly SalonDbContext _dbContext;
 
         public CustomerController(SalonDbContext context)
         {
-            _context = context;
+            _dbContext = context;
         }
 
         public IActionResult Register()
@@ -26,8 +26,8 @@ namespace hairSalonScheduler.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                _dbContext.Add(customer);
+                await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
             }
             return View(customer);
@@ -36,7 +36,7 @@ namespace hairSalonScheduler.Controllers
         // Get Customer
         public async Task<IActionResult> GetCustomer()
         {
-            var customers = await _context.Customers
+            var customers = await _dbContext.Customers
                                           .Include(c => c.Appointments)
                                           .ThenInclude(a => a.Services)
                                           .Include(c => c.Appointments)
@@ -48,7 +48,7 @@ namespace hairSalonScheduler.Controllers
         [HttpGet]
         public async Task<IActionResult> EditCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _dbContext.Customers.FindAsync(id);
             if (customer == null) return NotFound();
             return View(customer);
         }
@@ -62,12 +62,12 @@ namespace hairSalonScheduler.Controllers
             {
                 try
                 {
-                    _context.Update(updatedCustomer);
-                    await _context.SaveChangesAsync();
+                    _dbContext.Update(updatedCustomer);
+                    await _dbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_context.Customers.Any(c => c.Id == id)) return NotFound();
+                    if (!_dbContext.Customers.Any(c => c.Id == id)) return NotFound();
                     throw;
                 }
                 return RedirectToAction(nameof(GetCustomer));
@@ -79,7 +79,7 @@ namespace hairSalonScheduler.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _dbContext.Customers.FindAsync(id);
             if (customer == null) return NotFound();
             return View(customer);
         }
@@ -88,9 +88,9 @@ namespace hairSalonScheduler.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            var customer = await _dbContext.Customers.FindAsync(id);
+            _dbContext.Customers.Remove(customer);
+            await _dbContext.SaveChangesAsync();
             return RedirectToAction("GetCustomer");
         }
     }

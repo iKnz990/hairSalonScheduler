@@ -157,6 +157,7 @@ namespace hairSalonScheduler.Controllers
         {
             return _dbContext.Appointments.Any(a => a.Id == id);
         }
+
         [HttpGet]
         public IActionResult GetServicesByStylistId(int stylistId)
         {

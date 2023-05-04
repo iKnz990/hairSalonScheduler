@@ -5,9 +5,10 @@
 }
 
 <h1>Add Stylist</h1>
-
+<!--This script is for the profile picture string. I wanted some functionality so when you uploaded a string like 'sjkdhfjkashgflkhgl.jpg' it would format it with the stylists name for easy editing in the future.-->
 @section Scripts {
     <script>
+        //on key press change name 
         $(document).ready(function () {
             $("#ProfileImage").change(function () {
                 readURL(this);
@@ -18,7 +19,7 @@
                 updateFileName();
             });
         });
-
+        //read the image name and the input name and hide upload box
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -34,7 +35,7 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
+        //change the filename 
         function updateFileName() {
             const name = $('#Name').val().toLowerCase().replace(/\s+/g, '');
             const fileInput = $('#ProfileImage');
@@ -57,13 +58,14 @@
 
 <form asp-action="CreateStylist" method="post" enctype="multipart/form-data">
     <div class="form-group">
+        <!--profile image-->
         <label asp-for="ProfileImage">Profile Image</label>
         <div class="custom-file">
             <input asp-for="ProfileImage" type="file" class="custom-file-input" id="ProfileImage" />
-            <label class="custom-file-label" for="ProfileImage"></label>
+            <label class="custom-file-label" for="ProfileImage"></label> <!--this box is for the custom label for submitting-->
         </div>
         <img id="profileImagePreview" src="#" alt="Profile Image Preview" style="display: none; max-width: 200px; max-height: 200px; margin-top: 10px;">
-        <span id="fileNamePreview"></span>
+        <span id="fileNamePreview"></span> <!--This is what shows when you type. -->
     </div>
     <div class="form-group">
         <label asp-for="Name">Name</label>
@@ -79,7 +81,7 @@
             }
         </select>
     </div>
-
+    <!--Availabilities-->
     <div class="form-group">
         <label>Availability</label>
         <div class="row">

@@ -25,6 +25,7 @@
         <label for="SelectedDateTime">Date and Time</label>
         <input asp-for="SelectedDateTime" type="datetime-local" class="form-control" required>
     </div>
+    <!--Status-->
     <div class="form-group">
         <label for="Status">Status</label>
         <select asp-for="Status" class="form-control">
@@ -34,6 +35,7 @@
             <option value="Cancelled">Cancelled</option>
         </select>
     </div>
+    <!--Payment-->
     <div class="form-group">
         <label for="PaymentStatus">Payment Status</label>
         <select asp-for="PaymentStatus" class="form-control">
@@ -47,6 +49,7 @@
 </form>
 
 @section Scripts {
+    <!--Select the Service and StylistID-->
     <script>
         document.getElementById("Service").addEventListener("change", function (e) {
             var selectedOption = e.target.selectedOptions[0];

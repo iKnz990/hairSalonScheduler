@@ -4,7 +4,7 @@
 }
 
 <h1>Edit Stylist</h1>
-
+<!--This page should make CreateStylist, but I found I needed to make some modifications for how the data is populated by the system. It's orignally Monday, Tuesday, Wednesday etc. Saves as 1,2,3 etc, this controller doesn't pull it like that. It pulls whatever is assigned to the user. I had it where one stylist had tuesdays for 7 days. Fixable but have to rework a lot.-->
 <form asp-action="UpdateStylist" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
     <div class="form-group">

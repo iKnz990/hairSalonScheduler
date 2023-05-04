@@ -18,6 +18,7 @@
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control" />
     </div>
+    <!--Date of Birth-->
     <div class="form-group">
         <label asp-for="DateOfBirth"></label>
         <div class="input-group date" id="datepicker">
@@ -28,6 +29,7 @@
         </div>
         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
     </div>
+    <!--Gender using Enum-->
     <div class="form-group">
         <label asp-for="Gender"></label>
         <select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<Models.Enum.Gender>()">
@@ -39,6 +41,7 @@
         <label asp-for="Address"></label>
         <input asp-for="Address" class="form-control" />
     </div>
+    <!--Loyalty Points; an addition for later-->
     <div class="form-group" >
         <label asp-for="LoyaltyPoints" readonly></label>
         <input asp-for="LoyaltyPoints" class="form-control" value="@Model.LoyaltyPoints" readonly />
@@ -48,6 +51,7 @@
 </form>
 
 @section Scripts {
+    <!--Date Picker-->
     <script>
         $(function () {
             $('#datepicker').datepicker({
